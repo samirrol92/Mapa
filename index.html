@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa con Clima y Contador de Visitas</title>
+    
+    <!-- CSS de OpenStreetMap/Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    
+    <!-- JS de OpenStreetMap/Leaflet -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mapa con Clima en Tiempo Real y Contador de Visitas</h1>
+    </header>
+    <main>
+        <!-- Contador de visitas -->
+        <div>
+            <p><strong>Visitas a la página:</strong> <span id="contador-visitas">0</span></p>
+        </div>
+        
+        <!-- Campo de búsqueda -->
+        <div>
+            <input type="text" id="search" placeholder="Ingresa una dirección, coordenada o ubicación cartográfica" />
+            <button onclick="buscarUbicacion()">Buscar</button>
+        </div>
+        
+        <!-- Contenedor principal para el mapa -->
+        <div id="mapa" style="height: 500px; width: 100%;"></div>
+        
+        <!-- Información del clima -->
+        <div>
+            <h3>Información del Clima en la Ubicación Seleccionada:</h3>
+            <p><strong>Ciudad:</strong> <span id="ciudad">N/A</span></p>
+            <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
+            <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
+        </div>
+    </main>
+    <footer>
+        <p>Proyecto con OpenStreetMap, Clima y Contador de Visitas</p>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
