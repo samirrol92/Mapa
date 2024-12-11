@@ -93,20 +93,32 @@ document.getElementById('formulario').addEventListener('submit', async function(
     }
 });
 
-// Cargar los datos en la tabla desde el servidor
 function cargarDatosEnTabla() {
     fetch('datos.csv')
         .then(response => response.text())
         .then(csv => {
             const filas = csv.trim().split("\n");
             const tablaCuerpo = document.getElementById('tabla-cuerpo');
-            tablaCuerpo.innerHTML = '';
+            tablaCuerpo.innerHTML = ''; // Limpiar la tabla antes de recargar
+
             filas.forEach((fila, index) => {
                 const datos = fila.split(",");
-                tablaCuerpo.innerHTML += `<tr><td>${index + 1}</td><td>${datos[0]}</td><td>${datos[1]}</td><td>${datos[2]}</td></tr>`;
+                
+                // Validar que la fila tiene exactamente 3 columnas y contiene datos
+                if (datos.length === 3 && datos[0] && datos[1] && datos[2]) {
+                    tablaCuerpo.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${datos[0]}</td>
+                            <td>${datos[1]}</td>
+                            <td>${datos[2]}</td>
+                        </tr>
+                    `;
+                }
             });
         })
-        .catch(error => console.error('Error al cargar la tabla:', error));
+        .catch(error => console.error('Error al cargar los datos:', error));
 }
+
 
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
