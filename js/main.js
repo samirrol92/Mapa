@@ -91,4 +91,3 @@ function subirArchivo() {
         alert("Por favor, selecciona un archivo para subir.");
     }
 }
-
