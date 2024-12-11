@@ -83,3 +83,30 @@ async function obtenerClima(lat, lon, ciudad) {
         alert('Error al obtener el clima: ' + error.message);
     }
 }
+
+// Función para manejar el formulario
+document.getElementById('registro-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const matricula = document.getElementById('matricula').value;
+
+    const fila = `<tr><td>${nombre}</td><td>${apellido}</td><td>${matricula}</td></tr>`;
+    document.querySelector('#tabla-registro tbody').innerHTML += fila;
+
+    document.getElementById('registro-form').reset();
+});
+
+// Función para subir archivos
+function subirArchivo() {
+    const archivo = document.getElementById('archivo').files[0];
+    if (archivo) {
+        const lista = document.getElementById('lista-archivos');
+        const item = document.createElement('li');
+        item.textContent = archivo.name;
+        lista.appendChild(item);
+    } else {
+        alert('Selecciona un archivo para subir.');
+    }
+}
+
