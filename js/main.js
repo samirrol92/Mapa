@@ -1,3 +1,4 @@
+// Inicialización del mapa
 var map = L.map('mapa').setView([20.5937, -102.5720], 4); // Coordenada por defecto
 
 // Cargar la capa base
@@ -43,9 +44,6 @@ function buscarUbicacion() {
                         .openPopup();
 
                     map.setView([lat, lon], 12);
-
-                    // Llamar a la función para obtener el clima
-                    obtenerClima(lat, lon, data[0].display_name);
                 } else {
                     alert("No se encontró la ubicación.");
                 }
@@ -56,57 +54,46 @@ function buscarUbicacion() {
     }
 }
 
-// Función para obtener el clima
-async function obtenerClima(lat, lon, ciudad) {
-    const API_KEY = '4ab5902d04be11c4453833d67afc5250'; // Tu clave API aquí
-    try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-
-        const datos = await response.json();
-        
-        if (datos && datos.main && datos.weather) {
-            const temperatura = `${datos.main.temp} °C`;
-            const descripcion = datos.weather[0].description;
-
-            document.getElementById('ciudad').innerText = ciudad;
-            document.getElementById('temperatura').innerText = temperatura;
-            document.getElementById('descripcion').innerText = descripcion;
-        } else {
-            alert('No se pudo obtener la información del clima.');
-        }
-    } catch (error) {
-        console.error('Error al obtener el clima:', error);
-        alert('Error al obtener el clima: ' + error.message);
-    }
-}
-
-// Función para manejar el formulario
-document.getElementById('registro-form').addEventListener('submit', function(event) {
+// Funcionalidad del formulario
+document.getElementById('formulario').addEventListener('submit', function (event) {
     event.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
-    const matricula = document.getElementById('matricula').value;
 
-    const fila = `<tr><td>${nombre}</td><td>${apellido}</td><td>${matricula}</td></tr>`;
-    document.querySelector('#tabla-registro tbody').innerHTML += fila;
+    const formData = new FormData(this);
 
-    document.getElementById('registro-form').reset();
+    fetch('formulario.php', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.text())
+        .then(data => {
+            alert(data); // Muestra un mensaje de confirmación
+            mostrarDatos();
+            document.getElementById('formulario').reset();
+        })
+        .catch(error => console.error('Error:', error));
 });
 
-// Función para subir archivos
-function subirArchivo() {
-    const archivo = document.getElementById('archivo').files[0];
-    if (archivo) {
-        const lista = document.getElementById('lista-archivos');
-        const item = document.createElement('li');
-        item.textContent = archivo.name;
-        lista.appendChild(item);
-    } else {
-        alert('Selecciona un archivo para subir.');
-    }
+// Mostrar datos en la tabla
+function mostrarDatos() {
+    fetch('datos.csv')
+        .then(response => response.text())
+        .then(data => {
+            const registros = data.split('\n').filter(line => line.trim() !== '');
+            const tablaCuerpo = document.getElementById('tabla-cuerpo');
+            tablaCuerpo.innerHTML = '';
+
+            registros.forEach((registro, index) => {
+                const columnas = registro.split(',');
+                const fila = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${columnas[0]}</td>
+                    <td>${columnas[1]}</td>
+                    <td>${columnas[2]}</td>
+                </tr>`;
+                tablaCuerpo.innerHTML += fila;
+            });
+        });
 }
 
+// Cargar datos al iniciar
+document.addEventListener('DOMContentLoaded', mostrarDatos);
