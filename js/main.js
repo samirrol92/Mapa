@@ -130,5 +130,3 @@ function cargarDatosEnTabla() {
 
 // Cargar la tabla en la vista al iniciar la página
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
-
-
