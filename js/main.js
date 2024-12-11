@@ -82,14 +82,32 @@ function cargarDatosEnTabla() {
 }
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
 
-// Función para manejar subida de archivos
+// Función para manejar subida de archivos persistente
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
     if (archivo) {
-        const divArchivos = document.getElementById('archivos-subidos');
-        divArchivos.innerHTML += `<p>Archivo Subido: ${archivo.name}</p>`;
+        // Obtener la lista de archivos guardados de localStorage
+        let archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
+        archivosGuardados.push(archivo.name); // Guardar el nombre del archivo
+        localStorage.setItem('archivos_subidos', JSON.stringify(archivosGuardados));
+
+        // Actualizar la vista con los archivos persistentes
+        cargarArchivosEnVista();
+        document.getElementById('archivoSubir').value = ''; // Limpiar el input
     } else {
         alert("Por favor selecciona un archivo para subir.");
     }
 }
 
+// Función para cargar los archivos guardados en la vista
+function cargarArchivosEnVista() {
+    const divArchivos = document.getElementById('archivos-subidos');
+    divArchivos.innerHTML = ''; // Limpiar la vista
+    const archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
+    archivosGuardados.forEach(archivo => {
+        divArchivos.innerHTML += `<p>Archivo Subido: ${archivo}</p>`;
+    });
+}
+
+// Cargar archivos en la vista al iniciar la página
+document.addEventListener('DOMContentLoaded', cargarArchivosEnVista);
