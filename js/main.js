@@ -56,23 +56,26 @@ function buscarUbicacion() {
     }
 }
 
-// Función para actualizar y mostrar el contador de visitas
 function actualizarContador() {
+    // Obtiene el valor del contador de visitas desde localStorage
     let visitas = localStorage.getItem('contador_visitas');
+
+    // Si no existe, inicialízalo en 0
     if (!visitas) {
-        // Si no hay un contador en localStorage, inicialízalo en 0
         visitas = 0;
     }
-    // Incrementa el contador en 1
+
+    // Incrementa el contador y actualiza localStorage
     visitas = parseInt(visitas) + 1;
     localStorage.setItem('contador_visitas', visitas);
+
+    // Actualiza el contenido del span con el nuevo valor
     document.getElementById('contador-visitas').innerText = visitas;
 }
 
-// Llamar a la función al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarContador();
-});
+// Ejecuta la función cuando la página cargue
+document.addEventListener('DOMContentLoaded', actualizarContador);
+
 
 // Persistencia de formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
