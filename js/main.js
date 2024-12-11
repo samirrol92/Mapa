@@ -1,12 +1,12 @@
 // Configurar Firebase
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
+    apiKey: "AIzaSyC7bkr1ODDhuAdDiTIAAnMiOPqCWFSqbSU",
+    authDomain: "mapa-257cd.firebaseapp.com",
+    databaseURL: "https://mapa-257cd-default-rtdb.firebaseio.com",
+    projectId: "mapa-257cd",
+    storageBucket: "mapa-257cd.firebasestorage.app",
+    messagingSenderId: "381347272248",
+    appId: "1:381347272248:web:c43e1b4e947bdd3c9cb8cd",
 };
 firebase.initializeApp(firebaseConfig);
 
