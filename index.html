@@ -3,64 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa, Clima, Formularios, Subida de Archivos y Contador</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title>
+    
+    <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    
+    <!-- JS de OpenStreetMap/Leaflet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script src="js/main.js"></script>
 </head>
 <body>
     <header>
-        <h1>Mapa, Clima, Formularios, Subida de Archivos y Contador</h1>
+        <h1>Mapa con Clima, Contador de Visitas, Funcionalidades</h1>
     </header>
-
-    <section>
-        <h3>Contador de Visitas</h3>
-        <p>Total de visitas: <span id="contador-visitas">0</span></p>
-    </section>
-
-    <section>
-        <h3>Mapa de Localización</h3>
-        <div id="mapa" style="height: 400px;"></div>
-        <input type="text" id="search" placeholder="Buscar ubicación">
+    
+    <!-- Contador de visitas -->
+    <div>
+        <p><strong>Visitas a la página:</strong> <span id="contador-visitas">0</span></p>
+    </div>
+    
+    <!-- Campo de búsqueda -->
+    <div>
+        <input type="text" id="search" placeholder="Ingresa una dirección, coordenada o ubicación cartográfica" />
         <button onclick="buscarUbicacion()">Buscar</button>
-    </section>
+    </div>
+    
+    <!-- Contenedor principal para el mapa -->
+    <div id="mapa" style="height: 500px; width: 100%;"></div>
 
-    <section>
-        <h3>Clima</h3>
-        <p>Ciudad: <span id="ciudad">-</span></p>
-        <p>Temperatura: <span id="temperatura">-</span></p>
-        <p>Descripción: <span id="descripcion">-</span></p>
-    </section>
+    <!-- Información del clima -->
+    <div>
+        <h3>Información del Clima en la Ubicación Seleccionada:</h3>
+        <p><strong>Ciudad:</strong> <span id="ciudad">N/A</span></p>
+        <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
+        <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
+    </div>
 
+    <!-- Video de YouTube -->
     <section>
-        <h3>Formulario de Inscripción</h3>
-        <form id="formulario">
-            <input type="text" id="nombre" placeholder="Nombre" required>
-            <input type="text" id="apellido" placeholder="Apellido" required>
-            <input type="text" id="matricula" placeholder="Matrícula" required>
-            <button type="submit">Enviar</button>
-        </form>
-        <h3>Lista de Inscritos</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Matrícula</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-cuerpo"></tbody>
-        </table>
+        <h3>Video Informativo</h3>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </section>
-
-    <section>
-        <h3>Subida de Archivos</h3>
-        <input type="file" id="archivoSubir">
-        <button onclick="subirArchivo()">Subir Archivo</button>
-        <div id="archivos-subidos"></div>
-    </section>
+    
+    <script src="js/main.js"></script>
 </body>
 </html>
