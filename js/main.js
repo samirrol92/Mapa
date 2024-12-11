@@ -64,61 +64,69 @@ async function obtenerClima(lat, lon, ciudad) {
     }
 }
 
-// Enviar formulario con AJAX
+// Configurar Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyC7bkr1ODDhuAdDiTIAAnMiOPqCWFSqbSU",
+    authDomain: "mapa-257cd.firebaseapp.com",
+    databaseURL: "https://mapa-257cd-default-rtdb.firebaseio.com",
+    projectId: "mapa-257cd",
+    storageBucket: "mapa-257cd.firebasestorage.app",
+    messagingSenderId: "381347272248",
+    appId: "1:381347272248:web:c43e1b4e947bdd3c9cb8cd",
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Enviar formulario con Firebase
 document.getElementById('formulario').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.append("nombre", document.getElementById('nombre').value);
-    formData.append("apellido", document.getElementById('apellido').value);
-    formData.append("matricula", document.getElementById('matricula').value);
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
+    const matricula = document.getElementById('matricula').value.trim();
 
-    try {
-        const response = await fetch('guardar_datos.php', {
-            method: 'POST',
-            body: formData
+    if (nombre && apellido && matricula) {
+        const nuevoRegistroRef = database.ref("inscritos").push();
+        nuevoRegistroRef.set({
+            nombre,
+            apellido,
+            matricula,
+        })
+        .then(() => {
+            alert("Formulario enviado correctamente.");
+            this.reset();
+        })
+        .catch((error) => {
+            alert("Error al enviar datos a Firebase: " + error.message);
         });
-
-        const resultado = await response.json();
-        if (resultado.mensaje) {
-            alert(resultado.mensaje);
-        } else {
-            alert(resultado.error);
-        }
-
-        cargarDatosEnTabla();
-        this.reset();
-    } catch (error) {
-        alert('Error al enviar los datos');
+    } else {
+        alert("Por favor, complete todos los campos.");
     }
 });
 
+// Función para cargar los datos desde Firebase en la tabla
 function cargarDatosEnTabla() {
-    fetch('datos.csv')
-        .then(response => response.text())
-        .then(csv => {
-            const filas = csv.trim().split("\n");
-            const tablaCuerpo = document.getElementById('tabla-cuerpo');
-            tablaCuerpo.innerHTML = ''; // Limpiar la tabla antes de recargar
+    const tablaCuerpo = document.getElementById('tabla-cuerpo');
+    tablaCuerpo.innerHTML = ""; // Limpiar la tabla antes de recargar
 
-            filas.forEach((fila, index) => {
-                const datos = fila.split(",");
-                
-                // Validar que la fila tiene exactamente 3 columnas y contiene datos
-                if (datos.length === 3 && datos[0] && datos[1] && datos[2]) {
-                    tablaCuerpo.innerHTML += `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${datos[0]}</td>
-                            <td>${datos[1]}</td>
-                            <td>${datos[2]}</td>
-                        </tr>
-                    `;
-                }
-            });
-        })
-        .catch(error => console.error('Error al cargar los datos:', error));
+    database.ref('inscritos').on('value', (snapshot) => {
+        const inscritos = snapshot.val();
+        if (inscritos) {
+            let index = 1;
+            for (let id in inscritos) {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${index++}</td>
+                    <td>${inscritos[id].nombre}</td>
+                    <td>${inscritos[id].apellido}</td>
+                    <td>${inscritos[id].matricula}</td>
+                `;
+                tablaCuerpo.appendChild(fila);
+            }
+        }
+    });
 }
 
-
+// Cargar la tabla en la vista al iniciar la página
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
