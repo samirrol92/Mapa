@@ -1,24 +1,31 @@
+// Mapa
 var map = L.map('mapa').setView([20.5937, -102.5720], 4);
-
-// Cargar la capa base
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Funcionalidad de contador de visitas
-function actualizarContador() {
-    let visitas = localStorage.getItem('contador_visitas');
-    if (visitas) {
-        visitas = parseInt(visitas) + 1;
-    } else {
-        visitas = 1;
-    }
-    localStorage.setItem('contador_visitas', visitas);
-    document.getElementById('contador-visitas').innerText = visitas;
-}
-actualizarContador();
+// Clima
+function obtenerClima(lat, lon) {
+    const apiKey = '4ab5902d04be11c4453833d67afc5250';
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${apiKey}`;
 
-// Función para buscar una ubicación
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.cod === 200) {
+                document.getElementById('ciudad').innerText = data.name || "N/A";
+                document.getElementById('temperatura').innerText = `${data.main.temp} °C`;
+                document.getElementById('descripcion').innerText = data.weather[0].description || "N/A";
+            } else {
+                alert("Error al obtener el clima.");
+            }
+        })
+        .catch(error => {
+            console.error("Error al obtener el clima:", error);
+        });
+}
+
+// Buscar ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -35,6 +42,9 @@ function buscarUbicacion() {
                         .bindPopup(`Búsqueda: ${data[0].display_name}`)
                         .openPopup();
                     map.setView([lat, lon], 12);
+
+                    // Obtener el clima
+                    obtenerClima(lat, lon);
                 } else {
                     alert("No se encontró la ubicación.");
                 }
@@ -44,7 +54,20 @@ function buscarUbicacion() {
     }
 }
 
-// Funcionalidad persistente para el formulario con localStorage
+// Contador de visitas
+function actualizarContador() {
+    let visitas = localStorage.getItem('contador_visitas');
+    if (visitas) {
+        visitas = parseInt(visitas) + 1;
+    } else {
+        visitas = 1;
+    }
+    localStorage.setItem('contador_visitas', visitas);
+    document.getElementById('contador-visitas').innerText = visitas;
+}
+actualizarContador();
+
+// Persistencia de formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
     event.preventDefault();
     const datosFormulario = {
@@ -59,7 +82,7 @@ document.getElementById('formulario').addEventListener('submit', function(event)
     this.reset();
 });
 
-// Mostrar los datos guardados en la tabla
+// Mostrar datos en la tabla
 function cargarDatosEnTabla() {
     const registros = JSON.parse(localStorage.getItem('registros')) || [];
     const tablaCuerpo = document.getElementById('tabla-cuerpo');
@@ -71,7 +94,7 @@ function cargarDatosEnTabla() {
 }
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
 
-// Funcionalidad para subir archivos y crear enlace de descarga
+// Subir archivo
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
     if (archivo) {
