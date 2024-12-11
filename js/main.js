@@ -56,18 +56,23 @@ function buscarUbicacion() {
     }
 }
 
-// Función para actualizar el contador de visitas
+// Función para actualizar y mostrar el contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
-    if (visitas) {
-        visitas = parseInt(visitas) + 1;
-    } else {
-        visitas = 1;
+    if (!visitas) {
+        // Si no hay un contador en localStorage, inicialízalo en 0
+        visitas = 0;
     }
+    // Incrementa el contador en 1
+    visitas = parseInt(visitas) + 1;
     localStorage.setItem('contador_visitas', visitas);
     document.getElementById('contador-visitas').innerText = visitas;
 }
-actualizarContador();
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarContador();
+});
 
 // Persistencia de formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
