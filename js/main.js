@@ -1,8 +1,11 @@
-// Mapa
+// Inicializar el mapa con OpenStreetMap
 var map = L.map('mapa').setView([20.5937, -102.5720], 4);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        
+}).addTo(map);
+
+// Función para obtener el clima
 function obtenerClima(lat, lon) {
     const apiKey = '4ab5902d04be11c4453833d67afc5250';
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${apiKey}`;
@@ -22,6 +25,8 @@ function obtenerClima(lat, lon) {
             console.error("Error al obtener el clima:", error);
         });
 }
+
+// Función para buscar una ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -42,12 +47,16 @@ function buscarUbicacion() {
                 } else {
                     alert("No se encontró la ubicación.");
                 }
+            })
+            .catch(error => {
+                console.error("Error en la búsqueda de ubicación:", error);
             });
     } else {
         alert("Por favor ingresa una dirección.");
     }
 }
 
+// Función para actualizar el contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
     if (visitas) {
@@ -58,6 +67,7 @@ function actualizarContador() {
     localStorage.setItem('contador_visitas', visitas);
     document.getElementById('contador-visitas').innerText = visitas;
 }
+actualizarContador();
 
 // Persistencia de formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
