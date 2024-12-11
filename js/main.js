@@ -56,58 +56,74 @@ async function obtenerClima(lat, lon, ciudad) {
 }
 
 // Funcionalidad persistente para el formulario con localStorage
-document.getElementById('formulario').addEventListener('submit', function(event) {
+document.getElementById('formulario').addEventListener('submit', async function(event) {
     event.preventDefault();
+
     const datosFormulario = {
         nombre: document.getElementById('nombre').value,
         apellido: document.getElementById('apellido').value,
         matricula: document.getElementById('matricula').value,
     };
-    let registros = JSON.parse(localStorage.getItem('registros')) || [];
-    registros.push(datosFormulario);
-    localStorage.setItem('registros', JSON.stringify(registros));
-    cargarDatosEnTabla();
-    this.reset();
+
+    try {
+        const response = await fetch('guardar_inscripcion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datosFormulario),
+        });
+
+        if (response.ok) {
+            cargarDatosEnTabla();
+            document.getElementById('formulario').reset();
+        } else {
+            alert("Hubo un problema al enviar los datos.");
+        }
+    } catch (error) {
+        console.error('Error al enviar datos:', error);
+    }
 });
 
-// Mostrar los datos guardados en la tabla
-function cargarDatosEnTabla() {
-    const registros = JSON.parse(localStorage.getItem('registros')) || [];
-    const tablaCuerpo = document.getElementById('tabla-cuerpo');
-    tablaCuerpo.innerHTML = '';
-    registros.forEach((registro, index) => {
-        const fila = `<tr><td>${index + 1}</td><td>${registro.nombre}</td><td>${registro.apellido}</td><td>${registro.matricula}</td></tr>`;
-        tablaCuerpo.innerHTML += fila;
-    });
+// Función para cargar la tabla de manera global
+async function cargarDatosEnTabla() {
+    try {
+        const response = await fetch('guardar_inscripcion.php', { method: 'GET' });
+        const registros = await response.json();
+        const tablaCuerpo = document.getElementById('tabla-cuerpo');
+        tablaCuerpo.innerHTML = '';
+
+        registros.forEach((registro, index) => {
+            const fila = `<tr><td>${index + 1}</td><td>${registro.nombre}</td><td>${registro.apellido}</td><td>${registro.matricula}</td></tr>`;
+            tablaCuerpo.innerHTML += fila;
+        });
+    } catch (error) {
+        console.error('Error al cargar la tabla:', error);
+    }
 }
+
+// Cargar la tabla global al cargar la página
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
 
-// Función para manejar subida de archivos persistente
+// Funcionalidad para manejar subida de archivos persistente
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
     if (archivo) {
-        // Obtener la lista de archivos guardados de localStorage
         let archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
-        archivosGuardados.push(archivo.name); // Guardar el nombre del archivo
+        archivosGuardados.push(archivo.name);
         localStorage.setItem('archivos_subidos', JSON.stringify(archivosGuardados));
-
-        // Actualizar la vista con los archivos persistentes
         cargarArchivosEnVista();
-        document.getElementById('archivoSubir').value = ''; // Limpiar el input
+        document.getElementById('archivoSubir').value = '';
     } else {
         alert("Por favor selecciona un archivo para subir.");
     }
 }
 
-// Función para cargar los archivos guardados en la vista
 function cargarArchivosEnVista() {
     const divArchivos = document.getElementById('archivos-subidos');
-    divArchivos.innerHTML = ''; // Limpiar la vista
+    divArchivos.innerHTML = '';
     const archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
     archivosGuardados.forEach(archivo => {
         divArchivos.innerHTML += `<p>Archivo Subido: ${archivo}</p>`;
     });
 }
 
-// Cargar archivos en la vista al iniciar la página
 document.addEventListener('DOMContentLoaded', cargarArchivosEnVista);
