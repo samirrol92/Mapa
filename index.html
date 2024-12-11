@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title> 
+    <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title>
+    
     <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     
@@ -20,29 +21,22 @@
         <p><strong>Visitas a la página:</strong> <span id="contador-visitas">0</span></p>
     </div>
     
-    <!-- Campo de búsqueda -->
+    <!-- Funcionalidad de mapa con búsqueda -->
     <div>
         <input type="text" id="search" placeholder="Ingresa una dirección, coordenada o ubicación cartográfica" />
         <button onclick="buscarUbicacion()">Buscar</button>
     </div>
+    <div id="mapa" style="height: 400px;"></div>
     
-    <!-- Contenedor principal para el mapa -->
-    <div id="mapa" style="height: 500px; width: 100%;"></div>
-
-    <!-- Información del clima -->
+    <!-- Sección para clima -->
     <div>
-        <h3>Información del Clima en la Ubicación Seleccionada:</h3>
+        <h3>Información del Clima:</h3>
         <p><strong>Ciudad:</strong> <span id="ciudad">N/A</span></p>
         <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
         <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
     </div>
-    <!-- Video de YouTube -->
-    <section>
-        <h3>Video Informativo</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </section>
-    
-    <!-- Formulario persistente -->
+
+    <!-- Sección para formularios -->
     <section>
         <h3>Formulario de Inscripción</h3>
         <form id="formulario">
@@ -51,7 +45,6 @@
             <input type="text" id="matricula" placeholder="Matrícula" required>
             <button type="submit">Enviar</button>
         </form>
-
         <h3>Lista de Inscritos</h3>
         <table border="1">
             <thead>
@@ -66,17 +59,19 @@
         </table>
     </section>
 
-    <!-- Funcionalidad de subir archivos -->
+    <!-- Sección para subir archivos -->
     <section>
         <h3>Subir Archivos</h3>
         <input type="file" id="archivoSubir">
         <button onclick="subirArchivo()">Subir Archivo</button>
         <div id="archivos-subidos"></div>
     </section>
-    
+
     <footer>
-        <p>Proyecto con OpenStreetMap, Clima, Contador de Visitas, Video, Archivos y Funcionalidad de Inscripción</p>
+        <p>Proyecto con OpenStreetMap, Clima, Contador de Visitas, Subida de Archivos</p>
     </footer>
+    
+    <!-- Archivo JS -->
     <script src="js/main.js"></script>
 </body>
 </html>
