@@ -3,7 +3,6 @@ var map = L.map('mapa').setView([20.5937, -102.5720], 4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-
 function obtenerClima(lat, lon) {
     const apiKey = '4ab5902d04be11c4453833d67afc5250';
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=es&appid=${apiKey}`;
