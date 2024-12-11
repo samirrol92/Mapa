@@ -62,28 +62,24 @@ document.getElementById('formulario').addEventListener('submit', async function 
 
 // Función para cargar los datos desde Firebase en la tabla
 function cargarDatosEnTabla() {
-    const tablaCuerpo = document.getElementById('tabla-cuerpo');
-    tablaCuerpo.innerHTML = ""; // Limpiar la tabla antes de recargar
+    const referencia = firebase.database().ref('inscritos');
+    referencia.on('value', (snapshot) => {
+        const tablaCuerpo = document.getElementById('tabla-cuerpo');
+        tablaCuerpo.innerHTML = ''; // Limpiar la tabla antes de recargar
 
-    database.ref('inscritos').on('value', (snapshot) => {
-        const inscritos = snapshot.val();
-        if (inscritos) {
-            let index = 1;
-            for (let id in inscritos) {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${index++}</td>
-                    <td>${inscritos[id].nombre}</td>
-                    <td>${inscritos[id].apellido}</td>
-                    <td>${inscritos[id].matricula}</td>
-                `;
-                tablaCuerpo.appendChild(fila);
-            }
-        } else {
-            alert("No hay datos para mostrar.");
-        }
+        snapshot.forEach((childSnapshot) => {
+            const datos = childSnapshot.val();
+            tablaCuerpo.innerHTML += `
+                <tr>
+                    <td>${datos.nombre}</td>
+                    <td>${datos.apellido}</td>
+                    <td>${datos.matricula}</td>
+                </tr>
+            `;
+        });
     });
 }
+
 
 // Cargar la tabla en la vista al iniciar la página
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
