@@ -37,49 +37,13 @@
         <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
         <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
     </div>
-    
+
     <!-- Video de YouTube -->
     <section>
         <h3>Video Informativo</h3>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </section>
     
-    <!-- Formulario persistente -->
-    <section>
-        <h3>Formulario de Inscripción</h3>
-        <form id="formulario">
-            <input type="text" id="nombre" placeholder="Nombre" required>
-            <input type="text" id="apellido" placeholder="Apellido" required>
-            <input type="text" id="matricula" placeholder="Matrícula" required>
-            <button type="submit">Enviar</button>
-        </form>
-
-        <h3>Lista de Inscritos</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Matrícula</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-cuerpo"></tbody>
-        </table>
-    </section>
-
-    <!-- Funcionalidad de subir archivos -->
-    <section>
-        <h3>Subir Archivos</h3>
-        <input type="file" id="archivoSubir">
-        <button onclick="subirArchivo()">Subir Archivo</button>
-        <div id="archivos-subidos"></div>
-    </section>
-    
-    <footer>
-        <p>Proyecto con OpenStreetMap, Clima, Contador de Visitas, Video, Archivos y Funcionalidad de Inscripción</p>
-    </footer>
     <script src="js/main.js"></script>
 </body>
 </html>
-
