@@ -20,13 +20,13 @@ actualizarContador();
 
 // Configurar Firebase
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    databaseURL: "https://TU_PROYECTO.firebaseio.com",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID",
+    apiKey: "AIzaSyDDb5-7WA7SUpDfzBkRLQEKtmauyVuG-Lo",
+    authDomain: "sample-firebase-ai-app-babee.firebaseapp.com",
+    databaseURL: "https://sample-firebase-ai-app-babee-default-rtdb.firebaseio.com/",
+    projectId: "sample-firebase-ai-app-babee",
+    storageBucket: "sample-firebase-ai-app-babee.firebasestorage.app",
+    messagingSenderId: "671153028643",
+    appId: "1:671153028643:web:c7a3daa8ecd6ac8e9f7b96",
 };
 
 // Iniciar Firebase
