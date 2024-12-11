@@ -18,7 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Funcionalidad para buscar una ubicación
+// Función para buscar una ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -45,7 +45,7 @@ function buscarUbicacion() {
     }
 }
 
-// Funcionalidad para obtener clima
+// Funcionalidad para clima
 async function obtenerClima(lat, lon, ciudad) {
     const API_KEY = '4ab5902d04be11c4453833d67afc5250';
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
@@ -55,3 +55,59 @@ async function obtenerClima(lat, lon, ciudad) {
     document.getElementById('descripcion').innerText = datos.weather[0].description;
 }
 
+// Funcionalidad persistente para el formulario con localStorage
+document.getElementById('formulario').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const datosFormulario = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        matricula: document.getElementById('matricula').value,
+    };
+    let registros = JSON.parse(localStorage.getItem('registros')) || [];
+    registros.push(datosFormulario);
+    localStorage.setItem('registros', JSON.stringify(registros));
+    cargarDatosEnTabla();
+    this.reset();
+});
+
+// Mostrar los datos guardados en la tabla
+function cargarDatosEnTabla() {
+    const registros = JSON.parse(localStorage.getItem('registros')) || [];
+    const tablaCuerpo = document.getElementById('tabla-cuerpo');
+    tablaCuerpo.innerHTML = '';
+    registros.forEach((registro, index) => {
+        const fila = `<tr><td>${index + 1}</td><td>${registro.nombre}</td><td>${registro.apellido}</td><td>${registro.matricula}</td></tr>`;
+        tablaCuerpo.innerHTML += fila;
+    });
+}
+document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
+
+// Función para manejar subida de archivos persistente
+function subirArchivo() {
+    const archivo = document.getElementById('archivoSubir').files[0];
+    if (archivo) {
+        // Obtener la lista de archivos guardados de localStorage
+        let archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
+        archivosGuardados.push(archivo.name); // Guardar el nombre del archivo
+        localStorage.setItem('archivos_subidos', JSON.stringify(archivosGuardados));
+
+        // Actualizar la vista con los archivos persistentes
+        cargarArchivosEnVista();
+        document.getElementById('archivoSubir').value = ''; // Limpiar el input
+    } else {
+        alert("Por favor selecciona un archivo para subir.");
+    }
+}
+
+// Función para cargar los archivos guardados en la vista
+function cargarArchivosEnVista() {
+    const divArchivos = document.getElementById('archivos-subidos');
+    divArchivos.innerHTML = ''; // Limpiar la vista
+    const archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
+    archivosGuardados.forEach(archivo => {
+        divArchivos.innerHTML += `<p>Archivo Subido: ${archivo}</p>`;
+    });
+}
+
+// Cargar archivos en la vista al iniciar la página
+document.addEventListener('DOMContentLoaded', cargarArchivosEnVista);
