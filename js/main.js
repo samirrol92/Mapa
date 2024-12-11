@@ -5,7 +5,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Funcionalidad de contador de visitas
+// Funcionalidad para el contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
     if (visitas) {
@@ -18,33 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Función para buscar una ubicación
-var marker;
-function buscarUbicacion() {
-    var query = document.getElementById('search').value;
-    if (query) {
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const lat = parseFloat(data[0].lat);
-                    const lon = parseFloat(data[0].lon);
-
-                    if (marker) map.removeLayer(marker);
-                    marker = L.marker([lat, lon]).addTo(map)
-                        .bindPopup(`Búsqueda: ${data[0].display_name}`)
-                        .openPopup();
-                    map.setView([lat, lon], 12);
-                } else {
-                    alert("No se encontró la ubicación.");
-                }
-            });
-    } else {
-        alert("Por favor ingresa una dirección.");
-    }
-}
-
-// Funcionalidad persistente para el formulario con localStorage
+// Funcionalidad persistente para el formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
     event.preventDefault();
     const datosFormulario = {
@@ -59,7 +33,7 @@ document.getElementById('formulario').addEventListener('submit', function(event)
     this.reset();
 });
 
-// Mostrar los datos guardados en la tabla
+// Cargar los datos persistentes en la tabla
 function cargarDatosEnTabla() {
     const registros = JSON.parse(localStorage.getItem('registros')) || [];
     const tablaCuerpo = document.getElementById('tabla-cuerpo');
@@ -71,23 +45,22 @@ function cargarDatosEnTabla() {
 }
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
 
-// Funcionalidad para subir archivos y crear enlace de descarga
+// Funcionalidad de subir archivos
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
     if (archivo) {
         const divArchivos = document.getElementById('archivos-subidos');
+        const url = URL.createObjectURL(archivo);
         
         const enlace = document.createElement('a');
-        const url = URL.createObjectURL(archivo);
-
         enlace.href = url;
-        enlace.download = archivo.name;
-        enlace.innerText = `Descargar: ${archivo.name}`;
+        enlace.innerText = `Abrir Archivo: ${archivo.name}`;
         enlace.target = "_blank";
-
+        
+        divArchivos.innerHTML = ''; // Limpiar la vista anterior
         divArchivos.appendChild(enlace);
-        divArchivos.appendChild(document.createElement('br'));
     } else {
-        alert("Por favor, selecciona un archivo para subir.");
+        alert("Por favor selecciona un archivo.");
     }
 }
+
