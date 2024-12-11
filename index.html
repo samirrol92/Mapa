@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa con Clima y Contador de Visitas</title>
+    <title>Mapa con Clima y Funciones Adicionales</title>
     
     <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     
     <!-- JS de OpenStreetMap/Leaflet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Mapa con Clima en Tiempo Real y Contador de Visitas</h1>
+        <h1>Mapa con Clima, Video, Formulario y Subida de Archivos</h1>
     </header>
     <main>
         <!-- Contador de visitas -->
@@ -37,9 +51,45 @@
             <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
             <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
         </div>
+        
+        <!-- Video de YouTube -->
+        <div>
+            <h3>Video Informativo</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/tu_video_id" 
+                    title="Video de YouTube" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <!-- Formulario de registro -->
+        <div>
+            <h3>Formulario de Registro</h3>
+            <form id="registro-form">
+                <input type="text" id="nombre" placeholder="Nombre" required />
+                <input type="text" id="apellido" placeholder="Apellido" required />
+                <input type="text" id="matricula" placeholder="Matrícula" required />
+                <button type="submit">Registrar</button>
+            </form>
+            <table id="tabla-registro">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Matrícula</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <!-- Subida de archivos -->
+        <div>
+            <h3>Sube un archivo</h3>
+            <input type="file" id="archivo" />
+            <button onclick="subirArchivo()">Subir</button>
+            <ul id="lista-archivos"></ul>
+        </div>
     </main>
     <footer>
-        <p>Proyecto con OpenStreetMap, Clima y Contador de Visitas</p>
+        <p>Proyecto con OpenStreetMap, Clima y Funciones Adicionales</p>
     </footer>
     <script src="js/main.js"></script>
 </body>
