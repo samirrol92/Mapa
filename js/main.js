@@ -1,19 +1,11 @@
-// Configurar Firebase
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-firebase.initializeApp(firebaseConfig);
+var map = L.map('mapa').setView([20.5937, -102.5720], 4);
 
-const database = firebase.database();
-const storage = firebase.storage();
+// Cargar la capa base
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-// Funcionalidad para contar las visitas
+// Funcionalidad de contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
     if (visitas) {
@@ -26,13 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Crear el mapa
-var map = L.map('mapa').setView([20.5937, -102.5720], 4);
-
-// Cargar la capa base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-// Función para buscar ubicación
+// Función para buscar una ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -59,21 +45,70 @@ function buscarUbicacion() {
     }
 }
 
-// Funcionalidad para obtener clima
+// Funcionalidad para clima
 async function obtenerClima(lat, lon, ciudad) {
     const API_KEY = '4ab5902d04be11c4453833d67afc5250';
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
     try {
         const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+
         const datos = await response.json();
         
         if (datos && datos.main && datos.weather && datos.weather.length > 0) {
             document.getElementById('ciudad').innerText = ciudad;
             document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
             document.getElementById('descripcion').innerText = datos.weather[0].description;
+        } else {
+            alert("No se pudieron obtener datos del clima.");
+            document.getElementById('ciudad').innerText = "No disponible";
+            document.getElementById('temperatura').innerText = "No disponible";
+            document.getElementById('descripcion').innerText = "No disponible";
         }
     } catch (error) {
+        console.error("Error al obtener la información del clima: ", error);
         alert("Error al obtener la información del clima.");
+    }
+}
+
+// Funcionalidad persistente para el formulario con localStorage
+document.getElementById('formulario').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const datosFormulario = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        matricula: document.getElementById('matricula').value,
+    };
+    let registros = JSON.parse(localStorage.getItem('registros')) || [];
+    registros.push(datosFormulario);
+    localStorage.setItem('registros', JSON.stringify(registros));
+    cargarDatosEnTabla();
+    this.reset();
+});
+
+// Mostrar los datos guardados en la tabla
+function cargarDatosEnTabla() {
+    const registros = JSON.parse(localStorage.getItem('registros')) || [];
+    const tablaCuerpo = document.getElementById('tabla-cuerpo');
+    tablaCuerpo.innerHTML = '';
+    registros.forEach((registro, index) => {
+        const fila = `<tr><td>${index + 1}</td><td>${registro.nombre}</td><td>${registro.apellido}</td><td>${registro.matricula}</td></tr>`;
+        tablaCuerpo.innerHTML += fila;
+    });
+}
+document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
+
+// Función para manejar subida de archivos
+function subirArchivo() {
+    const archivo = document.getElementById('archivoSubir').files[0];
+    if (archivo) {
+        const divArchivos = document.getElementById('archivos-subidos');
+        divArchivos.innerHTML += `<p><a href="${URL.createObjectURL(archivo)}" target="_blank">Archivo Subido: ${archivo.name}</a></p>`;
+    } else {
+        alert('Por favor selecciona un archivo para subir.');
     }
 }
