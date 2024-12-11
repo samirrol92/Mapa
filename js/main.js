@@ -34,31 +34,31 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Enviar formulario con Firebase
-document.getElementById('formulario').addEventListener('submit', async function(event) {
+document.getElementById('formulario').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    const nombre = document.getElementById('nombre').value.trim();
-    const apellido = document.getElementById('apellido').value.trim();
-    const matricula = document.getElementById('matricula').value.trim();
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const matricula = document.getElementById('matricula').value;
 
-    if (nombre && apellido && matricula) {
-        try {
-            const nuevoRegistroRef = database.ref("inscritos").push();
-            await nuevoRegistroRef.set({
-                nombre,
-                apellido,
-                matricula,
-            });
-            alert("Formulario enviado correctamente.");
-            this.reset();
-        } catch (error) {
-            console.error("Error al enviar datos a Firebase: ", error);
-            alert("Error al enviar datos a Firebase.");
-        }
-    } else {
-        alert("Por favor, complete todos los campos.");
+    try {
+        // Enviar datos a Firebase
+        const referencia = firebase.database().ref('inscritos');
+        await referencia.push({
+            nombre: nombre,
+            apellido: apellido,
+            matricula: matricula
+        });
+
+        alert('Datos enviados correctamente');
+        cargarDatosEnTabla();
+        this.reset();
+    } catch (error) {
+        console.error('Error al guardar datos:', error);
+        alert('No se pudieron enviar los datos.');
     }
 });
+
 
 // Función para cargar los datos desde Firebase en la tabla
 function cargarDatosEnTabla() {
