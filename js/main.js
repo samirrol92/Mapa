@@ -24,8 +24,6 @@ function obtenerClima(lat, lon) {
             console.error("Error al obtener el clima:", error);
         });
 }
-
-// Buscar ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -42,8 +40,6 @@ function buscarUbicacion() {
                         .bindPopup(`Búsqueda: ${data[0].display_name}`)
                         .openPopup();
                     map.setView([lat, lon], 12);
-
-                    // Obtener el clima
                     obtenerClima(lat, lon);
                 } else {
                     alert("No se encontró la ubicación.");
@@ -54,7 +50,6 @@ function buscarUbicacion() {
     }
 }
 
-// Contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
     if (visitas) {
@@ -65,7 +60,6 @@ function actualizarContador() {
     localStorage.setItem('contador_visitas', visitas);
     document.getElementById('contador-visitas').innerText = visitas;
 }
-actualizarContador();
 
 // Persistencia de formulario
 document.getElementById('formulario').addEventListener('submit', function(event) {
