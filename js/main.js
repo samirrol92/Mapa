@@ -18,7 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Función para buscar una ubicación
+
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -45,7 +45,7 @@ function buscarUbicacion() {
     }
 }
 
-// Funcionalidad para clima
+
 async function obtenerClima(lat, lon, ciudad) {
     const API_KEY = '4ab5902d04be11c4453833d67afc5250';
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
