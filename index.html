@@ -3,31 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa con Clima y Funciones Adicionales</title>
+    <title>Mapa con Clima, Formulario y Video de YouTube</title>
     
     <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     
     <!-- JS de OpenStreetMap/Leaflet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
     <header>
-        <h1>Mapa con Clima, Video, Formulario y Subida de Archivos</h1>
+        <h1>Mapa con Clima, Formulario y Video</h1>
     </header>
     <main>
         <!-- Contador de visitas -->
@@ -51,46 +37,48 @@
             <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
             <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
         </div>
-        
+
         <!-- Video de YouTube -->
-        <div>
+        <section>
             <h3>Video Informativo</h3>
-            <iframe width="560" height="315" src="https://www.youtube.com/watch?v=kXKIncnU48g" 
-                    title="Video de YouTube" frameborder="0" allowfullscreen></iframe>
-        </div>
-        
-        <!-- Formulario de registro -->
-        <div>
+            <iframe 
+                id="video-youtube" 
+                width="560" 
+                height="315" 
+                src="https://www.youtube.com/embed/tu_id_de_video" 
+                title="Video de YouTube" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </section>
+
+        <!-- Formulario para capturar datos -->
+        <section>
             <h3>Formulario de Registro</h3>
-            <form id="registro-form">
-                <input type="text" id="nombre" placeholder="Nombre" required />
-                <input type="text" id="apellido" placeholder="Apellido" required />
-                <input type="text" id="matricula" placeholder="Matrícula" required />
+            <form id="formulario">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                <input type="text" id="matricula" name="matricula" placeholder="Matrícula" required>
                 <button type="submit">Registrar</button>
             </form>
-            <table id="tabla-registro">
+            <table border="1">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Matrícula</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="tabla-cuerpo"></tbody>
             </table>
-        </div>
-        
-        <!-- Subida de archivos -->
-        <div>
-            <h3>Sube un archivo</h3>
-            <input type="file" id="archivo" />
-            <button onclick="subirArchivo()">Subir</button>
-            <ul id="lista-archivos"></ul>
-        </div>
+        </section>
     </main>
     <footer>
-        <p>Proyecto con OpenStreetMap, Clima y Funciones Adicionales</p>
+        <p>Proyecto con OpenStreetMap, Clima, Formulario y Video</p>
     </footer>
     <script src="js/main.js"></script>
 </body>
 </html>
+
