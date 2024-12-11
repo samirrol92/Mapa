@@ -18,7 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-
+// Función para buscar una ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -35,7 +35,6 @@ function buscarUbicacion() {
                         .bindPopup(`Búsqueda: ${data[0].display_name}`)
                         .openPopup();
                     map.setView([lat, lon], 12);
-                    obtenerClima(lat, lon, data[0].display_name);
                 } else {
                     alert("No se encontró la ubicación.");
                 }
@@ -43,16 +42,6 @@ function buscarUbicacion() {
     } else {
         alert("Por favor ingresa una dirección.");
     }
-}
-
-
-async function obtenerClima(lat, lon, ciudad) {
-    const API_KEY = '4ab5902d04be11c4453833d67afc5250';
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-    const datos = await response.json();
-    document.getElementById('ciudad').innerText = ciudad;
-    document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
-    document.getElementById('descripcion').innerText = datos.weather[0].description;
 }
 
 // Funcionalidad persistente para el formulario con localStorage
@@ -82,32 +71,23 @@ function cargarDatosEnTabla() {
 }
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
 
-// Función para manejar subida de archivos persistente
+// Funcionalidad para subir archivos y crear enlace de descarga
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
     if (archivo) {
-        // Obtener la lista de archivos guardados de localStorage
-        let archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
-        archivosGuardados.push(archivo.name); // Guardar el nombre del archivo
-        localStorage.setItem('archivos_subidos', JSON.stringify(archivosGuardados));
+        const divArchivos = document.getElementById('archivos-subidos');
+        
+        const enlace = document.createElement('a');
+        const url = URL.createObjectURL(archivo);
 
-        // Actualizar la vista con los archivos persistentes
-        cargarArchivosEnVista();
-        document.getElementById('archivoSubir').value = ''; // Limpiar el input
+        enlace.href = url;
+        enlace.download = archivo.name;
+        enlace.innerText = `Descargar: ${archivo.name}`;
+        enlace.target = "_blank";
+
+        divArchivos.appendChild(enlace);
+        divArchivos.appendChild(document.createElement('br'));
     } else {
-        alert("Por favor selecciona un archivo para subir.");
+        alert("Por favor, selecciona un archivo para subir.");
     }
 }
-
-// Función para cargar los archivos guardados en la vista
-function cargarArchivosEnVista() {
-    const divArchivos = document.getElementById('archivos-subidos');
-    divArchivos.innerHTML = ''; // Limpiar la vista
-    const archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
-    archivosGuardados.forEach(archivo => {
-        divArchivos.innerHTML += `<p>Archivo Subido: ${archivo}</p>`;
-    });
-}
-
-// Cargar archivos en la vista al iniciar la página
-document.addEventListener('DOMContentLoaded', cargarArchivosEnVista);
