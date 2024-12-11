@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa con Clima, Formulario y Video de YouTube</title>
+    <title>Mapa con Clima, Formulario, Subir Archivos y Video</title>
     
     <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <h1>Mapa con Clima, Formulario y Video</h1>
+        <h1>Mapa con Clima, Formulario, Subir Archivos y Video</h1>
     </header>
     <main>
         <!-- Contador de visitas -->
@@ -45,7 +45,7 @@
                 id="video-youtube" 
                 width="560" 
                 height="315" 
-                src="https://www.youtube.com/embed/kXKIncnU48g" 
+                src="https://www.youtube.com/embed/tu_id_de_video" 
                 title="Video de YouTube" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -74,11 +74,12 @@
                 <tbody id="tabla-cuerpo"></tbody>
             </table>
         </section>
-    </main>
-    <footer>
-        <p>Proyecto con OpenStreetMap, Clima, Formulario y Video</p>
-    </footer>
-    <script src="js/main.js"></script>
-</body>
-</html>
+
+        <!-- Subir Archivos -->
+        <section>
+            <h3>Subir Archivos</h3>
+            <form id="form-subida">
+                <input type="file" id="archivo" name="archivo" required>
+                <button type="submit">Subir Archivo</button>
+
 
