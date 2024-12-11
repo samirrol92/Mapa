@@ -88,5 +88,8 @@ function subirArchivo() {
     if (archivo) {
         const divArchivos = document.getElementById('archivos-subidos');
         divArchivos.innerHTML += `<p>Archivo Subido: ${archivo.name}</p>`;
+    } else {
+        alert("Por favor selecciona un archivo para subir.");
     }
 }
+
