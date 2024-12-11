@@ -1,11 +1,19 @@
-var map = L.map('mapa').setView([20.5937, -102.5720], 4);
+// Configurar Firebase
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+};
+firebase.initializeApp(firebaseConfig);
 
-// Cargar la capa base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+const database = firebase.database();
+const storage = firebase.storage();
 
-// Funcionalidad de contador de visitas
+// Funcionalidad del contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
     if (visitas) {
@@ -18,112 +26,50 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Función para buscar una ubicación
-var marker;
-function buscarUbicacion() {
-    var query = document.getElementById('search').value;
-    if (query) {
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const lat = parseFloat(data[0].lat);
-                    const lon = parseFloat(data[0].lon);
+// Funcionalidad de búsqueda con mapas y clima
+let map = L.map('mapa').setView([20.5937, -102.5720], 4);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-                    if (marker) map.removeLayer(marker);
-                    marker = L.marker([lat, lon]).addTo(map)
-                        .bindPopup(`Búsqueda: ${data[0].display_name}`)
-                        .openPopup();
-                    map.setView([lat, lon], 12);
-                    obtenerClima(lat, lon, data[0].display_name);
-                } else {
-                    alert("No se encontró la ubicación.");
-                }
-            });
-    } else {
-        alert("Por favor ingresa una dirección.");
-    }
-}
-
-// Funcionalidad para clima
 async function obtenerClima(lat, lon, ciudad) {
-    const API_KEY = '4ab5902d04be11c4453833d67afc5250';
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-    const datos = await response.json();
+    const API_KEY = 'YOUR_OPENWEATHERMAP_KEY';
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
+    const res = await fetch(url);
+    const datos = await res.json();
     document.getElementById('ciudad').innerText = ciudad;
     document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
     document.getElementById('descripcion').innerText = datos.weather[0].description;
 }
 
-// Funcionalidad persistente para el formulario con localStorage
-document.getElementById('formulario').addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    const datosFormulario = {
-        nombre: document.getElementById('nombre').value,
-        apellido: document.getElementById('apellido').value,
-        matricula: document.getElementById('matricula').value,
-    };
-
-    try {
-        const response = await fetch('guardar_inscripcion.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datosFormulario),
+function buscarUbicacion() {
+    const query = document.getElementById('search').value;
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        .then(res => res.json())
+        .then(data => {
+            const lat = data[0]?.lat;
+            const lon = data[0]?.lon;
+            if (lat && lon) {
+                map.setView([lat, lon], 12);
+                obtenerClima(lat, lon, data[0].display_name);
+            }
         });
+}
 
-        if (response.ok) {
-            cargarDatosEnTabla();
-            document.getElementById('formulario').reset();
-        } else {
-            alert("Hubo un problema al enviar los datos.");
-        }
-    } catch (error) {
-        console.error('Error al enviar datos:', error);
-    }
+document.getElementById('formulario').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const datos = {
+        nombre: e.target.nombre.value,
+        apellido: e.target.apellido.value,
+        matricula: e.target.matricula.value,
+    };
+    await database.ref('registros').push(datos);
+    alert('Formulario enviado correctamente');
 });
 
-// Función para cargar la tabla de manera global
-async function cargarDatosEnTabla() {
-    try {
-        const response = await fetch('guardar_inscripcion.php', { method: 'GET' });
-        const registros = await response.json();
-        const tablaCuerpo = document.getElementById('tabla-cuerpo');
-        tablaCuerpo.innerHTML = '';
-
-        registros.forEach((registro, index) => {
-            const fila = `<tr><td>${index + 1}</td><td>${registro.nombre}</td><td>${registro.apellido}</td><td>${registro.matricula}</td></tr>`;
-            tablaCuerpo.innerHTML += fila;
-        });
-    } catch (error) {
-        console.error('Error al cargar la tabla:', error);
-    }
-}
-
-// Cargar la tabla global al cargar la página
-document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
-
-// Funcionalidad para manejar subida de archivos persistente
 function subirArchivo() {
     const archivo = document.getElementById('archivoSubir').files[0];
-    if (archivo) {
-        let archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
-        archivosGuardados.push(archivo.name);
-        localStorage.setItem('archivos_subidos', JSON.stringify(archivosGuardados));
-        cargarArchivosEnVista();
-        document.getElementById('archivoSubir').value = '';
-    } else {
-        alert("Por favor selecciona un archivo para subir.");
-    }
+    if (!archivo) return alert("Selecciona un archivo.");
+    const ref = storage.ref(archivo.name);
+    ref.put(archivo).then(() => alert('Archivo subido.'));
 }
-
-function cargarArchivosEnVista() {
-    const divArchivos = document.getElementById('archivos-subidos');
-    divArchivos.innerHTML = '';
-    const archivosGuardados = JSON.parse(localStorage.getItem('archivos_subidos')) || [];
-    archivosGuardados.forEach(archivo => {
-        divArchivos.innerHTML += `<p>Archivo Subido: ${archivo}</p>`;
-    });
-}
-
-document.addEventListener('DOMContentLoaded', cargarArchivosEnVista);
+Vista);
