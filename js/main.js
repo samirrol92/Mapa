@@ -35,7 +35,6 @@ function buscarUbicacion() {
                         .bindPopup(`Búsqueda: ${data[0].display_name}`)
                         .openPopup();
                     map.setView([lat, lon], 12);
-                    obtenerClima(lat, lon, data[0].display_name);
                 } else {
                     alert("No se encontró la ubicación.");
                 }
@@ -45,17 +44,7 @@ function buscarUbicacion() {
     }
 }
 
-// Funcionalidad para clima
-async function obtenerClima(lat, lon, ciudad) {
-    const API_KEY = '4ab5902d04be11c4453833d67afc5250';
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-    const datos = await response.json();
-    document.getElementById('ciudad').innerText = ciudad;
-    document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
-    document.getElementById('descripcion').innerText = datos.weather[0].description;
-}
-
-// Persistencia del formulario
+// Funcionalidad persistente para el formulario con localStorage
 document.getElementById('formulario').addEventListener('submit', function(event) {
     event.preventDefault();
     const datosFormulario = {
@@ -81,4 +70,25 @@ function cargarDatosEnTabla() {
     });
 }
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
+
+// Funcionalidad para subir archivos y crear enlace de descarga
+function subirArchivo() {
+    const archivo = document.getElementById('archivoSubir').files[0];
+    if (archivo) {
+        const divArchivos = document.getElementById('archivos-subidos');
+        
+        const enlace = document.createElement('a');
+        const url = URL.createObjectURL(archivo);
+
+        enlace.href = url;
+        enlace.download = archivo.name;
+        enlace.innerText = `Descargar: ${archivo.name}`;
+        enlace.target = "_blank";
+
+        divArchivos.appendChild(enlace);
+        divArchivos.appendChild(document.createElement('br'));
+    } else {
+        alert("Por favor, selecciona un archivo para subir.");
+    }
+}
 
