@@ -7,6 +7,7 @@ const firebaseConfig = {
     storageBucket: "mapa-257cd.firebasestorage.app",
     messagingSenderId: "381347272248",
     appId: "1:381347272248:web:c43e1b4e947bdd3c9cb8cd",
+    measurementId: "G-89PFNV5DL2"
 };
 firebase.initializeApp(firebaseConfig);
 
