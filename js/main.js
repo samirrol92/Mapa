@@ -18,7 +18,7 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Función para buscar una ubicación
+// Funcionalidad para buscar una ubicación
 var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
@@ -48,85 +48,10 @@ function buscarUbicacion() {
 // Funcionalidad para obtener clima
 async function obtenerClima(lat, lon, ciudad) {
     const API_KEY = '4ab5902d04be11c4453833d67afc5250';
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) throw new Error("Error en la solicitud del clima.");
-
-        const datos = await response.json();
-        document.getElementById('ciudad').innerText = ciudad;
-        document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
-        document.getElementById('descripcion').innerText = datos.weather[0].description;
-    } catch (error) {
-        alert('No se pudo obtener la información del clima.');
-    }
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+    const datos = await response.json();
+    document.getElementById('ciudad').innerText = ciudad;
+    document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
+    document.getElementById('descripcion').innerText = datos.weather[0].description;
 }
 
-// Configurar Firebase
-const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    databaseURL: "https://TU_PROYECTO.firebaseio.com",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID",
-};
-
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-// Enviar formulario con Firebase
-document.getElementById('formulario').addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    const nombre = document.getElementById('nombre').value.trim();
-    const apellido = document.getElementById('apellido').value.trim();
-    const matricula = document.getElementById('matricula').value.trim();
-
-    if (nombre && apellido && matricula) {
-        const nuevoRegistroRef = database.ref("inscritos").push();
-        nuevoRegistroRef.set({
-            nombre,
-            apellido,
-            matricula,
-        })
-        .then(() => {
-            alert("Formulario enviado correctamente.");
-            this.reset();
-        })
-        .catch((error) => {
-            alert("Error al enviar datos a Firebase: " + error.message);
-        });
-    } else {
-        alert("Por favor, complete todos los campos.");
-    }
-});
-
-// Función para cargar los datos desde Firebase en la tabla
-function cargarDatosEnTabla() {
-    const tablaCuerpo = document.getElementById('tabla-cuerpo');
-    tablaCuerpo.innerHTML = ""; // Limpiar la tabla antes de recargar
-
-    database.ref('inscritos').on('value', (snapshot) => {
-        const inscritos = snapshot.val();
-        if (inscritos) {
-            let index = 1;
-            for (let id in inscritos) {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${index++}</td>
-                    <td>${inscritos[id].nombre}</td>
-                    <td>${inscritos[id].apellido}</td>
-                    <td>${inscritos[id].matricula}</td>
-                `;
-                tablaCuerpo.appendChild(fila);
-            }
-        }
-    });
-}
-
-// Cargar la tabla en la vista al iniciar la página
-document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
