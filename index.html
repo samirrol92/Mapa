@@ -58,7 +58,10 @@
             <input type="text" id="matricula" placeholder="Matrícula" required />
             <button type="submit">Enviar</button>
         </form>
+    </section>
 
+    <!-- Lista de Inscritos con tu código dinámico -->
+    <section>
         <h3>Lista de Inscritos</h3>
         <table border="1">
             <thead>
@@ -69,8 +72,13 @@
                     <th>Matrícula</th>
                 </tr>
             </thead>
-            <tbody id="tabla-cuerpo"></tbody>
+            <tbody id="tabla-cuerpo">
+                <!-- Aquí se cargarán los datos dinámicamente -->
+            </tbody>
         </table>
+        <script>
+            cargarDatosEnTabla();
+        </script>
     </section>
 
     <!-- Subir archivos -->
