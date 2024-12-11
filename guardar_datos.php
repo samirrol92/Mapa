@@ -3,15 +3,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $matricula = $_POST['matricula'];
+    
+    $datos = [$nombre, $apellido, $matricula];
 
-    // Ruta del archivo donde se guardarán los datos
-    $archivo = 'datos.csv';
+    $archivo = fopen("datos.csv", "a");
+    fputcsv($archivo, $datos);
+    fclose($archivo);
 
-    // Crear o abrir el archivo y agregar los datos
-    $file = fopen($archivo, 'a');
-    fputcsv($file, [$nombre, $apellido, $matricula]);
-    fclose($file);
-
-    echo "Datos guardados correctamente";
+    echo json_encode(["mensaje" => "Datos guardados correctamente"]);
+} else {
+    echo json_encode(["error" => "No se enviaron datos correctamente"]);
 }
 ?>
