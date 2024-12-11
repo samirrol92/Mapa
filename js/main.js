@@ -18,10 +18,10 @@ function actualizarContador() {
 }
 actualizarContador();
 
-// Configuración Firebase
-
+// Configurar Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyDDb5-7WA7SUpDfzBkRLQEKtmauyVuG-Lo",
+  
+apiKey: "AIzaSyDDb5-7WA7SUpDfzBkRLQEKtmauyVuG-Lo",
     authDomain: "sample-firebase-ai-app-babee.firebaseapp.com",
     databaseURL: "https://sample-firebase-ai-app-babee-default-rtdb.firebaseio.com/",
     projectId: "sample-firebase-ai-app-babee",
@@ -35,52 +35,57 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Enviar formulario con Firebase
-document.getElementById('formulario').addEventListener('submit', async function (event) {
+document.getElementById('formulario').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
-    const matricula = document.getElementById('matricula').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
+    const matricula = document.getElementById('matricula').value.trim();
 
-    try {
-        // Enviar datos a Firebase
-        const referencia = firebase.database().ref('inscritos');
-        await referencia.push({
-            nombre: nombre,
-            apellido: apellido,
-            matricula: matricula
-        });
-
-        alert('Datos enviados correctamente');
-        cargarDatosEnTabla();
-        this.reset();
-    } catch (error) {
-        console.error('Error al guardar datos:', error);
-        alert('No se pudieron enviar los datos.');
+    if (nombre && apellido && matricula) {
+        try {
+            const nuevoRegistroRef = database.ref("inscritos").push();
+            await nuevoRegistroRef.set({
+                nombre,
+                apellido,
+                matricula,
+            });
+            alert("Formulario enviado correctamente.");
+            this.reset();
+        } catch (error) {
+            console.error("Error al enviar datos a Firebase: ", error);
+            alert("Error al enviar datos a Firebase.");
+        }
+    } else {
+        alert("Por favor, complete todos los campos.");
     }
 });
 
-
 // Función para cargar los datos desde Firebase en la tabla
 function cargarDatosEnTabla() {
-    const referencia = firebase.database().ref('inscritos');
-    referencia.on('value', (snapshot) => {
-        const tablaCuerpo = document.getElementById('tabla-cuerpo');
-        tablaCuerpo.innerHTML = ''; // Limpiar la tabla antes de recargar
+    const tablaCuerpo = document.getElementById('tabla-cuerpo');
+    tablaCuerpo.innerHTML = ""; // Limpiar la tabla antes de recargar
 
-        snapshot.forEach((childSnapshot) => {
-            const datos = childSnapshot.val();
-            tablaCuerpo.innerHTML += `
-                <tr>
-                    <td>${datos.nombre}</td>
-                    <td>${datos.apellido}</td>
-                    <td>${datos.matricula}</td>
-                </tr>
-            `;
-        });
+    database.ref('inscritos').on('value', (snapshot) => {
+        const inscritos = snapshot.val();
+        if (inscritos) {
+            let index = 1;
+            for (let id in inscritos) {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${index++}</td>
+                    <td>${inscritos[id].nombre}</td>
+                    <td>${inscritos[id].apellido}</td>
+                    <td>${inscritos[id].matricula}</td>
+                `;
+                tablaCuerpo.appendChild(fila);
+            }
+        } else {
+            alert("No hay datos para mostrar.");
+        }
     });
 }
 
-
 // Cargar la tabla en la vista al iniciar la página
 document.addEventListener('DOMContentLoaded', cargarDatosEnTabla);
+
