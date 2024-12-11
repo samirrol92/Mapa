@@ -90,7 +90,64 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
     <script src="js/firebase-config.js"></script>
-    <script src="js/main.js"></script>
+
+    <!-- Funcionalidad principal de la página -->
+    <script>
+        // Lógica para el formulario de inscripción
+        document.getElementById('formulario').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const matricula = document.getElementById('matricula').value;
+
+            const datos = new FormData();
+            datos.append("nombre", nombre);
+            datos.append("apellido", apellido);
+            datos.append("matricula", matricula);
+
+            const respuesta = await fetch('guardar_datos.php', {
+                method: 'POST',
+                body: datos
+            });
+
+            const resultado = await respuesta.json();
+            alert(resultado.mensaje || resultado.error);
+
+            // Recargar tabla de inscritos después de enviar el formulario
+            cargarDatosEnTabla();
+        });
+
+        // Funcionalidad para cargar la tabla de inscritos
+        async function cargarDatosEnTabla() {
+            try {
+                const response = await fetch('datos.csv');
+                const csv = await response.text();
+                const filas = csv.trim().split("\n");
+                const tablaCuerpo = document.getElementById('tabla-cuerpo');
+                tablaCuerpo.innerHTML = '';
+
+                filas.forEach((fila, index) => {
+                    const datos = fila.split(",");
+                    if (datos.length === 3) {
+                        tablaCuerpo.innerHTML += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${datos[0]}</td>
+                                <td>${datos[1]}</td>
+                                <td>${datos[2]}</td>
+                            </tr>
+                        `;
+                    }
+                });
+            } catch (error) {
+                console.error("Error al cargar la información de la tabla", error);
+            }
+        }
+
+        // Cargar la tabla de inscritos al inicio
+        document.addEventListener("DOMContentLoaded", cargarDatosEnTabla);
+    </script>
 </body>
 
 </html>
