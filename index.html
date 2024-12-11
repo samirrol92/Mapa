@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title> 
+    
     <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     
@@ -37,63 +38,16 @@
         <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
     </div>
     
-    <!-- Funcionalidad de inscripción -->
+    <!-- Video de YouTube -->
+    <section>
+        <h3>Video Informativo</h3>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
+    
+    <!-- Formulario persistente para inscripciones -->
     <section>
         <h3>Formulario de Inscripción</h3>
         <form id="formulario">
             <input type="text" id="nombre" placeholder="Nombre" required>
             <input type="text" id="apellido" placeholder="Apellido" required>
-            <input type="text" id="matricula" placeholder="Matrícula" required>
-            <button type="submit">Enviar</button>
-        </form>
-
-        <h3>Lista de Inscritos</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Matrícula</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-cuerpo"></tbody>
-        </table>
-    </section>
-    
-    <script>
-        // Funcionalidad AJAX para enviar datos
-        document.getElementById('formulario').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const response = await fetch('guardar_datos.php', {
-                method: 'POST',
-                body: formData
-            });
-            if (response.ok) {
-                alert("Formulario enviado correctamente.");
-                actualizarLista();
-                this.reset();
-            } else {
-                alert("Error al enviar el formulario.");
-            }
-        });
-
-        // Funcionalidad para actualizar la tabla de inscritos dinámicamente
-        async function actualizarLista() {
-            const response = await fetch('obtener_datos.php');
-            const datos = await response.json();
-            const tbody = document.getElementById('tabla-cuerpo');
-            tbody.innerHTML = ''; // Limpiar la tabla anterior
-            datos.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${index + 1}</td><td>${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td>`;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Carga la lista de inscritos al cargar la página
-        window.onload = actualizarLista;
-    </script>
-</body>
-</html>
+            <input 
