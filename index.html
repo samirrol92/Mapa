@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mapa con Clima, Contador de Visitas, Funcionalidades</title>
-
-    <!-- CSS OpenStreetMap -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title>
+    
+    <!-- CSS de OpenStreetMap/Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
-    <link rel="stylesheet" href="css/estilos.css" />
-
-    <!-- JS OpenStreetMap -->
+    
+    <!-- JS de OpenStreetMap/Leaflet -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 </head>
-
 <body>
     <header>
         <h1>Mapa con Clima, Contador de Visitas, Funcionalidades</h1>
     </header>
-
+    
     <!-- Contador de visitas -->
     <div>
         <p><strong>Visitas a la página:</strong> <span id="contador-visitas">0</span></p>
     </div>
-
+    
     <!-- Campo de búsqueda -->
     <div>
         <input type="text" id="search" placeholder="Ingresa una dirección, coordenada o ubicación cartográfica" />
         <button onclick="buscarUbicacion()">Buscar</button>
     </div>
-
+    
     <!-- Contenedor principal para el mapa -->
     <div id="mapa" style="height: 500px; width: 100%;"></div>
 
@@ -40,28 +37,23 @@
         <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
         <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
     </div>
-
+    
     <!-- Video de YouTube -->
     <section>
         <h3>Video Informativo</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </section>
-
+    
     <!-- Formulario persistente -->
     <section>
         <h3>Formulario de Inscripción</h3>
         <form id="formulario">
-            <input type="text" id="nombre" placeholder="Nombre" required />
-            <input type="text" id="apellido" placeholder="Apellido" required />
-            <input type="text" id="matricula" placeholder="Matrícula" required />
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="text" id="apellido" placeholder="Apellido" required>
+            <input type="text" id="matricula" placeholder="Matrícula" required>
             <button type="submit">Enviar</button>
         </form>
-    </section>
 
-    <!-- Lista de Inscritos con tu código dinámico -->
-    <section>
         <h3>Lista de Inscritos</h3>
         <table border="1">
             <thead>
@@ -72,33 +64,21 @@
                     <th>Matrícula</th>
                 </tr>
             </thead>
-            <tbody id="tabla-cuerpo">
-                <!-- Aquí se cargarán los datos dinámicamente -->
-            </tbody>
+            <tbody id="tabla-cuerpo"></tbody>
         </table>
-        <script>
-            cargarDatosEnTabla();
-        </script>
     </section>
 
-    <!-- Subir archivos -->
+    <!-- Funcionalidad de subir archivos -->
     <section>
         <h3>Subir Archivos</h3>
-        <input type="file" id="archivoSubir" />
+        <input type="file" id="archivoSubir">
         <button onclick="subirArchivo()">Subir Archivo</button>
         <div id="archivos-subidos"></div>
     </section>
-
+    
     <footer>
         <p>Proyecto con OpenStreetMap, Clima, Contador de Visitas, Video, Archivos y Funcionalidad de Inscripción</p>
     </footer>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
-    <script src="js/firebase-config.js"></script>
     <script src="js/main.js"></script>
 </body>
-
 </html>
