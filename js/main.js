@@ -5,6 +5,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+console.log("Mapa cargado correctamente");
+
 // Funcionalidad de contador de visitas
 function actualizarContador() {
     let visitas = localStorage.getItem('contador_visitas');
@@ -23,7 +25,7 @@ var marker;
 function buscarUbicacion() {
     var query = document.getElementById('search').value;
     if (query) {
-        fetch(https://nominatim.openstreetmap.org/search?format=json&q=${query})
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
@@ -32,14 +34,15 @@ function buscarUbicacion() {
 
                     if (marker) map.removeLayer(marker);
                     marker = L.marker([lat, lon]).addTo(map)
-                        .bindPopup(Búsqueda: ${data[0].display_name})
+                        .bindPopup(`Búsqueda: ${data[0].display_name}`)
                         .openPopup();
                     map.setView([lat, lon], 12);
                     obtenerClima(lat, lon, data[0].display_name);
                 } else {
                     alert("No se encontró la ubicación.");
                 }
-            });
+            })
+            .catch(err => console.error("Error al realizar la búsqueda:", err));
     } else {
         alert("Por favor ingresa una dirección.");
     }
@@ -48,9 +51,16 @@ function buscarUbicacion() {
 // Funcionalidad para obtener clima
 async function obtenerClima(lat, lon, ciudad) {
     const API_KEY = '4ab5902d04be11c4453833d67afc5250';
-    const response = await fetch(https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric);
-    const datos = await response.json();
-    document.getElementById('ciudad').innerText = ciudad;
-    document.getElementById('temperatura').innerText = ${datos.main.temp} °C;
-    document.getElementById('descripcion').innerText = datos.weather[0].description;
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+        const datos = await response.json();
+        console.log("Datos de clima:", datos);
+
+        document.getElementById('ciudad').innerText = ciudad;
+        document.getElementById('temperatura').innerText = `${datos.main.temp} °C`;
+        document.getElementById('descripcion').innerText = datos.weather[0].description;
+    } catch (error) {
+        console.error("Error al obtener información del clima:", error);
+    }
 }
+
