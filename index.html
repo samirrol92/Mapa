@@ -1,83 +1,145 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa con Clima, Contador de Visitas, Video, Archivos</title>
-    
-    <!-- CSS de OpenStreetMap/Leaflet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
-    
-    <!-- JS de OpenStreetMap/Leaflet -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <title>Para Alguien Especial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #ff99cc;
+            color: white;
+        }
+        header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .intro {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+        }
+        .carousel img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        video {
+            display: block;
+            max-width: 100%;
+            margin: 20px auto;
+            border: 2px solid #ff99cc;
+            border-radius: 10px;
+        }
+        .interactive {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .heart-button {
+            background: #ff99cc;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+        .question {
+            text-align: center;
+            margin: 50px 0;
+        }
+        .question h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5em;
+            color: #ff0066;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .options button {
+            background: #ff99cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Mapa con Clima, Contador de Visitas, Funcionalidades</h1>
+        <h1>Para Alguien Especial</h1>
     </header>
-    
-    <!-- Contador de visitas -->
-    <div>
-        <p><strong>Visitas a la página:</strong> <span id="contador-visitas">0</span></p>
+    <div class="container">
+        <div class="intro">
+            <p>"Hoy quiero decirte algo muy especial... pero antes, recordemos algunos momentos juntos."</p>
+        </div>
+        <div class="carousel">
+            <img src="img1.jpg" alt="Memoria 1">
+            <img src="img2.jpg" alt="Memoria 2">
+            <img src="img3.jpg" alt="Memoria 3">
+        </div>
+        <video controls>
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+        <div class="interactive">
+            <button class="heart-button" onclick="showHeart()">Descubre un mensaje</button>
+            <p id="hiddenMessage" style="display: none;">Eres lo mejor que me ha pasado. ❤️</p>
+        </div>
+        <div class="question">
+            <h2>¿Puedo ser tu novio?</h2>
+            <div class="options">
+                <button onclick="showConfetti()">Sí</button>
+                <button onclick="showConfetti()">Claro que sí</button>
+            </div>
+        </div>
     </div>
-    
-    <!-- Campo de búsqueda -->
-    <div>
-        <input type="text" id="search" placeholder="Ingresa una dirección, coordenada o ubicación cartográfica" />
-        <button onclick="buscarUbicacion()">Buscar</button>
-    </div>
-    
-    <!-- Contenedor principal para el mapa -->
-    <div id="mapa" style="height: 500px; width: 100%;"></div>
-
-    <!-- Información del clima -->
-    <div>
-        <h3>Información del Clima en la Ubicación Seleccionada:</h3>
-        <p><strong>Ciudad:</strong> <span id="ciudad">N/A</span></p>
-        <p><strong>Temperatura:</strong> <span id="temperatura">N/A</span></p>
-        <p><strong>Descripción:</strong> <span id="descripcion">N/A</span></p>
-    </div>
-    
-    <!-- Video de YouTube -->
-    <section>
-        <h3>Video Informativo</h3>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </section>
-    
-    <!-- Formulario persistente -->
-    <section>
-        <h3>Formulario de Inscripción</h3>
-        <form id="formulario">
-            <input type="text" id="nombre" placeholder="Nombre" required>
-            <input type="text" id="apellido" placeholder="Apellido" required>
-            <input type="text" id="matricula" placeholder="Matrícula" required>
-            <button type="submit">Enviar</button>
-        </form>
-
-        <h3>Lista de Inscritos</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Matrícula</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-cuerpo"></tbody>
-        </table>
-    </section>
-
-    <!-- Funcionalidad de subir archivos -->
-    <section>
-        <h3>Subir Archivos</h3>
-        <input type="file" id="archivoSubir">
-        <button onclick="subirArchivo()">Subir Archivo</button>
-        <div id="archivos-subidos"></div>
-    </section>
-    <footer>
-        <p>Proyecto con OpenStreetMap, Clima, Contador de Visitas, Video, Archivos y Funcionalidad de Inscripción</p>
-    </footer>
-    <script src="js/main.js"></script>
+    <canvas class="confetti"></canvas>
+    <script>
+        function showHeart() {
+            document.getElementById('hiddenMessage').style.display = 'block';
+        }
+        function showConfetti() {
+            alert('¡Me haces la persona más feliz del mundo! 🎉');
+            // Aquí puedes agregar un efecto de confeti animado
+        }
+    </script>
 </body>
 </html>
