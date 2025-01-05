@@ -57,8 +57,8 @@
             outline: none;
         }
         .heart-button img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             transition: transform 0.3s;
         }
         .heart-button img:hover {
@@ -113,12 +113,29 @@
         }
         .decorations img {
             position: absolute;
-            opacity: 0.7;
+            opacity: 0.9;
             animation: float 5s infinite ease-in-out;
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .heart {
+            animation: float 4s infinite ease-in-out;
+        }
+        .heart:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+        }
+        .heart:nth-child(2) {
+            top: 50%;
+            left: 70%;
+            width: 100px;
+            height: 100px;
+        }
+        .heart:nth-child(3) {
+            top: 80%;
+            left: 40%;
+            width: 120px;
+            height: 120px;
         }
     </style>
 </head>
@@ -127,20 +144,19 @@
         <h1>Para Mi Persona Especial</h1>
     </header>
     <div class="decorations">
-        <img src="imagenes/snoopy.png" alt="Corazón flotante 1" class="heart" style="top: 20%; left: 10%; width: 50px; height: 50px;">
-        <img src="imagenes/snoopy1.png" alt="Corazón flotante 2" class="heart" style="top: 50%; left: 70%; width: 30px; height: 30px;">
-        <img src="imagenes/heart-icon.png" alt="Corazón flotante 3" class="heart" style="top: 80%; left: 40%; width: 40px; height: 40px;">
+        <img src="imagenes/snoopy.png" alt="Snoopy decorativo 1" class="heart">
+        <img src="imagenes/snoopy1.png" alt="Snoopy decorativo 2" class="heart">
+        <img src="imagenes/heart-icon.png" alt="Corazón decorativo" class="heart">
     </div>
     <div class="container">
         <div class="intro">
             <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
-            <!-- Puedes agregar una imagen aquí si lo deseas -->
-            <img src="imagenes/fotoEspecial.jpg" alt="Imagen especial" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
         </div>
+        <!-- Reemplaza TU_VIDEO_ID con el ID real del video -->
         <iframe width="560" height="315" src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div class="interactive">
             <button class="heart-button" onclick="revealQuestion()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Heart_icon_red_hollow.svg" alt="Corazón">
+                <img src="imagenes/heart-icon.png" alt="Corazón">
             </button>
         </div>
         <div class="question" id="questionSection">
@@ -161,7 +177,6 @@
         }
         function showConfetti() {
             alert('¡Me haces la persona más feliz del mundo! 🎉');
-            // Aquí puedes agregar un efecto de confeti animado
         }
     </script>
 </body>
