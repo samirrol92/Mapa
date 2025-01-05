@@ -3,16 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Mi Persona Especial</title>
+    <title>Para May</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Página de introducción */
+        #introPage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffe5d9, #ffcccc);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        #introPage h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3em;
+            color: #b30000;
+            margin-bottom: 30px;
+        }
+        .envelope {
+            width: 200px;
+            height: 150px;
+            background: url('imagenes/sobre.png') no-repeat center center;
+            background-size: contain;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope:hover {
+            transform: scale(1.1);
+        }
+
+        /* Página principal */
+        #mainPage {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(to bottom, #cce7ff, #a3d8ff);
             color: #333;
-            overflow-x: hidden;
-            position: relative;
+            transition: left 1s ease-in-out;
         }
         header {
             text-align: center;
@@ -140,41 +181,56 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Para Mi Persona Especial</h1>
-    </header>
-    <div class="decorations">
-        <img src="imagenes/Snoopy.png" alt="Snoopy decorativo 1" class="heart">
-        <img src="imagenes/snoopy1.jpg" alt="Snoopy decorativo 2" class="heart">
-        <img src="imagenes/heart-icon.png" alt="Corazón decorativo" class="heart">
+    <!-- Página de introducción -->
+    <div id="introPage">
+        <h1>May, la mujer más hermosa del mundo</h1>
+        <div class="envelope" onclick="goToMainPage()"></div>
     </div>
-    <div class="container">
-        <div class="intro">
-            <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
+
+    <!-- Página principal -->
+    <div id="mainPage">
+        <header>
+            <h1>Para Mi Persona Especial</h1>
+        </header>
+        <div class="decorations">
+            <img src="imagenes/snoopy.png" alt="Snoopy decorativo 1" class="heart">
+            <img src="imagenes/snoopy1.png" alt="Snoopy decorativo 2" class="heart">
+            <img src="imagenes/heart-icon.png" alt="Corazón decorativo" class="heart">
         </div>
-        <!-- Reemplaza TU_VIDEO_ID con el ID real del video -->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="interactive">
-            <button class="heart-button" onclick="revealQuestion()">
-                <img src="imagenes/heart-icon.png" alt="Corazón">
-            </button>
-        </div>
-        <div class="question" id="questionSection">
-            <h2>¿Puedo ser tu novio?</h2>
-            <div class="options">
-                <button onclick="showConfetti()">Sí</button>
-                <button onclick="showConfetti()">Claro que sí</button>
+        <div class="container">
+            <div class="intro">
+                <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
+            </div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="interactive">
+                <button class="heart-button" onclick="revealQuestion()">
+                    <img src="imagenes/heart-icon.png" alt="Corazón">
+                </button>
+            </div>
+            <div class="question" id="questionSection">
+                <h2>¿Puedo ser tu novio?</h2>
+                <div class="options">
+                    <button onclick="showConfetti()">Sí</button>
+                    <button onclick="showConfetti()">Claro que sí</button>
+                </div>
             </div>
         </div>
+        <footer>
+            <p>Creado con mucho cariño 💕</p>
+        </footer>
     </div>
-    <footer>
-        <p>Creado con mucho cariño 💕</p>
-    </footer>
+
     <script>
+        function goToMainPage() {
+            document.getElementById('introPage').style.left = '-100%';
+            document.getElementById('mainPage').style.left = '0';
+        }
+
         function revealQuestion() {
             document.getElementById('questionSection').style.display = 'block';
             document.querySelector('.interactive').style.display = 'none';
         }
+
         function showConfetti() {
             alert('¡Me haces la persona más feliz del mundo! 🎉');
         }
