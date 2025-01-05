@@ -9,28 +9,34 @@
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+            background: linear-gradient(to bottom, #cce7ff, #a3d8ff);
             color: #333;
+            overflow-x: hidden;
+            position: relative;
         }
         header {
             text-align: center;
             padding: 20px;
-            background: #ff99cc;
+            background: #89c9ff;
             color: white;
         }
         header h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.5em;
+            font-size: 3em;
+            margin: 0;
         }
         .container {
             padding: 20px;
             max-width: 900px;
             margin: auto;
+            position: relative;
         }
         .intro {
             text-align: center;
             font-size: 1.2em;
             margin-bottom: 30px;
+            font-style: italic;
+            color: #003366;
         }
         .carousel {
             display: flex;
@@ -42,41 +48,45 @@
             width: 150px;
             height: 150px;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         video {
             display: block;
             max-width: 100%;
             margin: 20px auto;
-            border: 2px solid #ff99cc;
-            border-radius: 10px;
+            border: 4px solid #89c9ff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .interactive {
             text-align: center;
             margin: 30px 0;
         }
         .heart-button {
-            background: #ff99cc;
-            color: white;
+            background: none;
             border: none;
-            border-radius: 50px;
-            padding: 10px 20px;
-            font-size: 1.2em;
             cursor: pointer;
+            outline: none;
+        }
+        .heart-button img {
+            width: 100px;
+            height: 100px;
             transition: transform 0.3s;
         }
-        .heart-button:hover {
-            transform: scale(1.1);
+        .heart-button img:hover {
+            transform: scale(1.2);
         }
         .question {
             text-align: center;
             margin: 50px 0;
+            display: none;
         }
         .question h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.5em;
-            color: #ff0066;
+            font-size: 3em;
+            color: #003366;
+            margin-bottom: 20px;
         }
         .options {
             display: flex;
@@ -84,21 +94,54 @@
             gap: 20px;
         }
         .options button {
-            background: #ff99cc;
+            background: #89c9ff;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 25px;
             font-size: 1.2em;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
         }
-        .confetti {
-            position: fixed;
+        .options button:hover {
+            background: #67b1ff;
+            transform: scale(1.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #89c9ff;
+            color: white;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+        .decorations {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+        }
+        .decorations .heart {
+            position: absolute;
+            background: #ffccff;
+            width: 50px;
+            height: 50px;
+            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 75%, 15% 100%, 0% 35%);
+            opacity: 0.7;
+            animation: float 5s infinite ease-in-out;
+        }
+        .decorations .snoopy {
+            position: absolute;
+            width: 100px;
+            opacity: 0.8;
+            animation: float 6s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
     </style>
 </head>
@@ -106,6 +149,13 @@
     <header>
         <h1>Para Alguien Especial</h1>
     </header>
+    <div class="decorations">
+        <div class="heart" style="top: 20%; left: 10%;"></div>
+        <div class="heart" style="top: 50%; left: 70%; width: 30px; height: 30px;"></div>
+        <div class="heart" style="top: 80%; left: 40%;"></div>
+        <img src="snoopy1.png" class="snoopy" style="top: 10%; left: 80%;">
+        <img src="snoopy2.png" class="snoopy" style="top: 60%; left: 20%;">
+    </div>
     <div class="container">
         <div class="intro">
             <p>"Hoy quiero decirte algo muy especial... pero antes, recordemos algunos momentos juntos."</p>
@@ -120,21 +170,25 @@
             Tu navegador no soporta el video.
         </video>
         <div class="interactive">
-            <button class="heart-button" onclick="showHeart()">Descubre un mensaje</button>
-            <p id="hiddenMessage" style="display: none;">Eres lo mejor que me ha pasado. ❤️</p>
+            <button class="heart-button" onclick="revealQuestion()">
+                <img src="heart-icon.png" alt="Corazón">
+            </button>
         </div>
-        <div class="question">
-            <h2>¿Puedo ser tu novio?</h2>
+        <div class="question" id="questionSection">
+            <h2>¿Quieres ser mi novia?</h2>
             <div class="options">
                 <button onclick="showConfetti()">Sí</button>
                 <button onclick="showConfetti()">Claro que sí</button>
             </div>
         </div>
     </div>
-    <canvas class="confetti"></canvas>
+    <footer>
+        <p>Creado con mucho cariño 💕</p>
+    </footer>
     <script>
-        function showHeart() {
-            document.getElementById('hiddenMessage').style.display = 'block';
+        function revealQuestion() {
+            document.getElementById('questionSection').style.display = 'block';
+            document.querySelector('.interactive').style.display = 'none';
         }
         function showConfetti() {
             alert('¡Me haces la persona más feliz del mundo! 🎉');
