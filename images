@@ -1,0 +1,5 @@
+<img src="images/snoopy.png" class="snoopy" style="top: 10%; left: 80%;">
+<img src="images/snoopy1.png" class="snoopy" style="top: 60%; left: 20%;">
+<button class="heart-button" onclick="revealQuestion()">
+    <img src="images/heart-icon.png" alt="Corazón">
+</button>
