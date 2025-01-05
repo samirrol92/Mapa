@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi persona Especial</title>
+    <title>Para Mi Persona Especial</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body {
@@ -38,20 +38,7 @@
             font-style: italic;
             color: #003366;
         }
-        .carousel {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-        }
-        .carousel img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        video {
+        iframe {
             display: block;
             max-width: 100%;
             margin: 20px auto;
@@ -133,12 +120,6 @@
             opacity: 0.7;
             animation: float 5s infinite ease-in-out;
         }
-        .decorations .snoopy {
-            position: absolute;
-            width: 100px;
-            opacity: 0.8;
-            animation: float 6s infinite ease-in-out;
-        }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -147,31 +128,21 @@
 </head>
 <body>
     <header>
-        <h1>Para mi persona Especial</h1>
+        <h1>Para Mi Persona Especial</h1>
     </header>
     <div class="decorations">
         <div class="heart" style="top: 20%; left: 10%;"></div>
         <div class="heart" style="top: 50%; left: 70%; width: 30px; height: 30px;"></div>
         <div class="heart" style="top: 80%; left: 40%;"></div>
-        <img src="snoopy1.png" class="snoopy" style="top: 10%; left: 80%;">
-        <img src="snoopy2.png" class="snoopy" style="top: 60%; left: 20%;">
     </div>
     <div class="container">
         <div class="intro">
-            <p>"Hoy quiero decirte algo muy especial... pero antes, recordemos algunos momentos juntos."</p>
+            <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
         </div>
-        <div class="carousel">
-            <img src="img1.jpg" alt="Memoria 1">
-            <img src="img2.jpg" alt="Memoria 2">
-            <img src="img3.jpg" alt="Memoria 3">
-        </div>
-        <video controls>
-            <source src="video.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div class="interactive">
             <button class="heart-button" onclick="revealQuestion()">
-                <img src="heart-icon.png" alt="Corazón">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Heart_icon_red_hollow.svg" alt="Corazón">
             </button>
         </div>
         <div class="question" id="questionSection">
