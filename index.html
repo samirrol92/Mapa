@@ -36,7 +36,7 @@
             width: 80%;
             max-width: 300px;
             height: 200px;
-            background-image: url('imagenes/sobre.jpg');
+            background-image: url('imagenes/sobre.png');
             background-size: cover;
             background-position: center;
             margin-bottom: 20px;
@@ -81,7 +81,7 @@
 
         .interactive {
             position: relative;
-            margin-top: 20px;
+            margin-top: 40px; /* Aumenta espacio entre corazones y texto */
         }
 
         .heart-button img {
@@ -96,13 +96,13 @@
         }
 
         .snoopy-1 {
-            width: 100px;
-            top: 20%;
+            width: 80px;
+            top: 15%; /* Baja ligeramente al Snoopy superior */
             left: 5%;
         }
 
         .snoopy-2 {
-            width: 80px;
+            width: 60px;
             bottom: 10%;
             right: 10%;
         }
@@ -115,21 +115,21 @@
         }
 
         .heart-1 {
-            top: 20%;
+            top: 25%; /* Baja ligeramente el primer corazón */
             left: 10%;
             width: 50px;
             height: 50px;
         }
 
         .heart-2 {
-            top: 50%;
+            top: 55%; /* Baja el segundo corazón */
             left: 70%;
             width: 30px;
             height: 30px;
         }
 
         .heart-3 {
-            top: 80%;
+            top: 85%; /* Baja el tercer corazón */
             left: 40%;
             width: 40px;
             height: 40px;
@@ -165,13 +165,19 @@
                 height: auto;
             }
 
+            .snoopy-1 {
+                width: 60px; /* Snoopy superior más pequeño */
+                top: 20%;
+            }
+
+            .snoopy-2 {
+                width: 50px; /* Snoopy inferior más pequeño */
+                bottom: 15%;
+            }
+
             .heart-button img {
                 width: 70px;
                 height: 70px;
-            }
-
-            .snoopy {
-                display: none;
             }
         }
     </style>
@@ -187,8 +193,8 @@
     <!-- Main Page -->
     <div class="container" id="mainPage" style="display: none;">
         <!-- Snoopy decorations -->
-        <img src="imagenes/Snoopy.png" alt="Snoopy 1" class="snoopy snoopy-1">
-        <img src="imagenes/snoopy1.jpg" alt="Snoopy 2" class="snoopy snoopy-2">
+        <img src="imagenes/snoopy.png" alt="Snoopy 1" class="snoopy snoopy-1">
+        <img src="imagenes/snoopy1.png" alt="Snoopy 2" class="snoopy snoopy-2">
 
         <!-- Intro text -->
         <div class="intro">
@@ -236,4 +242,3 @@
     </script>
 </body>
 </html>
-
