@@ -3,125 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para May</title>
+    <title>Para Mi Persona Especial</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            overflow: hidden;
-        }
-
-        /* Página de introducción */
-        #introPage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, #ffe5d9, #ffcccc);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        #introPage h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3em;
-            color: #b30000;
-            margin-bottom: 30px;
-        }
-        .envelope {
-            width: 200px;
-            height: 150px;
-            background: url('imagenes/sobre.jpg') no-repeat center center;
-            background-size: contain;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .envelope:hover {
-            transform: scale(1.1);
-        }
-
-        /* Página principal */
-        #mainPage {
-            position: absolute;
-            top: 0;
-            left: 100%;
-            width: 100%;
-            height: 100%;
             background: linear-gradient(to bottom, #cce7ff, #a3d8ff);
             color: #333;
-            transition: left 1s ease-in-out;
+            overflow-x: hidden;
         }
-        header {
+
+        /* Intro screen */
+        .intro-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             text-align: center;
             padding: 20px;
-            background: #89c9ff;
-            color: white;
         }
-        header h1 {
+
+        .intro-screen h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 3em;
-            margin: 0;
-        }
-        .container {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-            position: relative;
-        }
-        .intro {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            font-style: italic;
-            color: #003366;
-        }
-        iframe {
-            display: block;
-            max-width: 100%;
-            margin: 20px auto;
-            border: 4px solid #89c9ff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .interactive {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .heart-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            outline: none;
-        }
-        .heart-button img {
-            width: 150px;
-            height: 150px;
-            transition: transform 0.3s;
-        }
-        .heart-button img:hover {
-            transform: scale(1.2);
-        }
-        .question {
-            text-align: center;
-            margin: 50px 0;
-            display: none;
-        }
-        .question h2 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3em;
+            font-size: 2.5em;
             color: #003366;
             margin-bottom: 20px;
         }
-        .options {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+
+        .envelope {
+            width: 80%;
+            max-width: 300px;
+            height: 200px;
+            background-image: url('imagenes/sobre.jpg');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .options button {
+
+        .open-button {
             background: #89c9ff;
             color: white;
             border: none;
@@ -132,98 +55,174 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
         }
-        .options button:hover {
+
+        .open-button:hover {
             background: #67b1ff;
             transform: scale(1.1);
         }
-        footer {
-            text-align: center;
+
+        /* Main page */
+        .container {
             padding: 20px;
-            background: #89c9ff;
-            color: white;
-            font-size: 0.9em;
-            margin-top: 40px;
+            max-width: 90%;
+            margin: auto;
+            text-align: center;
         }
-        .decorations {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        iframe {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
+            height: auto;
+            max-width: 560px;
+            margin: 20px auto;
+            border: 4px solid #89c9ff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .decorations img {
+
+        .interactive {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .heart-button img {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Snoopy decorations */
+        .snoopy {
             position: absolute;
-            opacity: 0.9;
-            animation: float 5s infinite ease-in-out;
+            z-index: -1;
         }
+
+        .snoopy-1 {
+            width: 100px;
+            top: 20%;
+            left: 5%;
+        }
+
+        .snoopy-2 {
+            width: 80px;
+            bottom: 10%;
+            right: 10%;
+        }
+
+        /* Floating hearts */
         .heart {
-            animation: float 4s infinite ease-in-out;
+            position: absolute;
+            animation: float 3s infinite ease-in-out;
+            z-index: 1;
         }
-        .heart:nth-child(1) {
+
+        .heart-1 {
             top: 20%;
             left: 10%;
-            width: 150px;
-            height: 150px;
+            width: 50px;
+            height: 50px;
         }
-        .heart:nth-child(2) {
+
+        .heart-2 {
             top: 50%;
             left: 70%;
-            width: 100px;
-            height: 100px;
+            width: 30px;
+            height: 30px;
         }
-        .heart:nth-child(3) {
+
+        .heart-3 {
             top: 80%;
             left: 40%;
-            width: 120px;
-            height: 120px;
+            width: 40px;
+            height: 40px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .intro-screen h1 {
+                font-size: 2em;
+            }
+
+            .envelope {
+                width: 70%;
+                height: 150px;
+            }
+
+            .open-button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+
+            iframe {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .heart-button img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .snoopy {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Página de introducción -->
-    <div id="introPage">
+    <!-- Intro Screen -->
+    <div class="intro-screen">
         <h1>May, la mujer más hermosa del mundo</h1>
-        <div class="envelope" onclick="goToMainPage()"></div>
+        <div class="envelope"></div>
+        <button class="open-button" onclick="goToMainPage()">Abrir</button>
     </div>
 
-    <!-- Página principal -->
-    <div id="mainPage">
-        <header>
-            <h1>Para Mi Persona Especial</h1>
-        </header>
-        <div class="decorations">
-            <img src="imagenes/Snoopy.png" alt="Snoopy decorativo 1" class="heart">
-            <img src="imagenes/snoopy1.jpg" alt="Snoopy decorativo 2" class="heart">
-            <img src="imagenes/heart-icon.png" alt="Corazón decorativo" class="heart">
+    <!-- Main Page -->
+    <div class="container" id="mainPage" style="display: none;">
+        <!-- Snoopy decorations -->
+        <img src="imagenes/Snoopy.png" alt="Snoopy 1" class="snoopy snoopy-1">
+        <img src="imagenes/snoopy1.jpg" alt="Snoopy 2" class="snoopy snoopy-2">
+
+        <!-- Intro text -->
+        <div class="intro">
+            <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
+            <img src="imagenes/fotoEspecial.jpg" alt="Imagen especial" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
         </div>
-        <div class="container">
-            <div class="intro">
-                <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
-            </div>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <div class="interactive">
-                <button class="heart-button" onclick="revealQuestion()">
-                    <img src="imagenes/heart-icon.png" alt="Corazón">
-                </button>
-            </div>
-            <div class="question" id="questionSection">
-                <h2>¿Puedo ser tu novio?</h2>
-                <div class="options">
-                    <button onclick="showConfetti()">Sí</button>
-                    <button onclick="showConfetti()">Claro que sí</button>
-                </div>
+
+        <!-- YouTube video -->
+        <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <!-- Interactive heart -->
+        <div class="interactive">
+            <img src="imagenes/heart-icon.png" alt="Corazón flotante 1" class="heart heart-1">
+            <img src="imagenes/heart-icon.png" alt="Corazón flotante 2" class="heart heart-2">
+            <img src="imagenes/heart-icon.png" alt="Corazón flotante 3" class="heart heart-3">
+            <button class="heart-button" onclick="revealQuestion()">
+                <img src="imagenes/heart-icon.png" alt="Corazón">
+            </button>
+        </div>
+
+        <!-- Question section -->
+        <div class="question" id="questionSection" style="display: none;">
+            <h2>¿Puedo ser tu novio?</h2>
+            <div class="options">
+                <button onclick="showConfetti()">Sí</button>
+                <button onclick="showConfetti()">Claro que sí</button>
             </div>
         </div>
-        <footer>
-            <p>Creado con mucho cariño 💕</p>
-        </footer>
     </div>
 
     <script>
         function goToMainPage() {
-            document.getElementById('introPage').style.left = '-100%';
-            document.getElementById('mainPage').style.left = '0';
+            document.querySelector('.intro-screen').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'block';
         }
 
         function revealQuestion() {
@@ -237,3 +236,4 @@
     </script>
 </body>
 </html>
+
