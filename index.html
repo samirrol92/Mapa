@@ -81,7 +81,7 @@
 
         .interactive {
             position: relative;
-            margin-top: 40px; /* Aumenta espacio entre corazones y texto */
+            margin-top: 40px;
         }
 
         .heart-button img {
@@ -97,13 +97,13 @@
 
         .snoopy-1 {
             width: 80px;
-            top: 15%; /* Baja ligeramente al Snoopy superior */
-            left: 5%;
+            bottom: 10%; /* Coloca el primer Snoopy en la parte inferior */
+            left: 10%;
         }
 
         .snoopy-2 {
-            width: 60px;
-            bottom: 10%;
+            width: 80px;
+            bottom: 10%; /* Coloca el segundo Snoopy al lado del primero */
             right: 10%;
         }
 
@@ -165,20 +165,24 @@
                 height: auto;
             }
 
-            .snoopy-1 {
-                width: 60px; /* Snoopy superior más pequeño */
-                top: 20%;
-            }
-
-            .snoopy-2 {
-                width: 50px; /* Snoopy inferior más pequeño */
-                bottom: 15%;
+            .snoopy-1, .snoopy-2 {
+                width: 60px; /* Snoopy más pequeños en pantallas pequeñas */
             }
 
             .heart-button img {
                 width: 70px;
                 height: 70px;
             }
+        }
+
+        /* Styling the intro text */
+        .intro p {
+            font-family: 'Great Vibes', cursive; /* Elegant cursive font */
+            font-size: 1.5em;
+            color: #003366;
+            margin: 20px 0;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Light shadow for depth */
         }
     </style>
 </head>
@@ -192,15 +196,11 @@
 
     <!-- Main Page -->
     <div class="container" id="mainPage" style="display: none;">
-        <!-- Snoopy decorations -->
-        <img src="imagenes/Snoopy.png" alt="Snoopy 1" class="snoopy snoopy-1">
-        <img src="imagenes/snoopy1.jpg" alt="Snoopy 2" class="snoopy snoopy-2">
-
-    <!-- Intro text -->
-<div class="intro">
-    <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
-    <img src="imagenes/fotoEspecial.jpg" alt="Imagen especial" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
-</div>
+        <!-- Intro text -->
+        <div class="intro">
+            <p>"Hoy quiero decirte algo muy especial... pero antes, quiero que veas este video."</p>
+            <img src="imagenes/fotoEspecial.jpg" alt="Imagen especial" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px;">
+        </div>
 
         <!-- YouTube video -->
         <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -214,6 +214,10 @@
                 <img src="imagenes/heart-icon.png" alt="Corazón">
             </button>
         </div>
+
+        <!-- Snoopy decorations -->
+        <img src="imagenes/Snoopy.png" alt="Snoopy 1" class="snoopy snoopy-1">
+        <img src="imagenes/snoopy1.jpg" alt="Snoopy 2" class="snoopy snoopy-2">
 
         <!-- Question section -->
         <div class="question" id="questionSection" style="display: none;">
